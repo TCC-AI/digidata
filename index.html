@@ -2,7 +2,7 @@
 <html>
   <head>
     <base target="_top">
-    <title>數位資料中心APP</title>
+    <title>昶青數位資料中心APP</title>
     <!-- 載入 Google Charts -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -201,7 +201,7 @@
       label {
         margin-bottom: 6px;
         font-weight: bold;
-        color: #059ced;
+        color: #147802;
         font-size: 1.3em;
         display: flex;
         align-items: center;
@@ -699,10 +699,10 @@
         statsContent.innerHTML = `
           <span id="closeModal">&times;</span>
           <h3>部門次數統計圖</h3>
-          <div id="chartVendor" style="width:100%; height:400px;"></div>
+          <div id="chartVendor" style="width:100%; height:200px;"></div>
           <hr style="border:none; height:2px; background:linear-gradient(90deg, transparent, rgba(33, 147, 176, 0.3), transparent); margin:30px 0;"/>
           <h3>查詢資料次數統計圖</h3>
-          <div id="chartFile" style="width:100%; height:400px;"></div>
+          <div id="chartFile" style="width:100%; height:200px;"></div>
           <div style="text-align:center; margin-top:30px;">
             <button id="backButton" style="
               padding: 12px 25px; 
@@ -710,7 +710,7 @@
               border: none; 
               border-radius: 50px; 
               color: white; 
-              font-size: 3em; 
+              font-size: 2em; 
               cursor: pointer;
               box-shadow: 0 8px 15px rgba(33, 147, 176, 0.3), 0 4px 6px rgba(0,0,0,0.1);
               transition: all 0.3s ease;
@@ -748,7 +748,7 @@
             title: '部門次數統計圖',
             legend: { position: 'none' },
             animation: { startup: true, duration: 800, easing: 'out' },
-            chartArea: { width: '80%', height: '70%' },
+            chartArea: { width: '80%', height: '40%' },
             backgroundColor: 'transparent',
             bar: { groupWidth: '65%' }
           };
@@ -765,7 +765,7 @@
             title: '檔案次數統計圖',
             legend: { position: 'none' },
             animation: { startup: true, duration: 800, easing: 'out' },
-            chartArea: { width: '80%', height: '70%' },
+            chartArea: { width: '80%', height: '40%' },
             backgroundColor: 'transparent',
             bar: { groupWidth: '65%' }
           };
@@ -789,7 +789,7 @@
     <div class="container">
       <button id="statsButton">查詢統計</button>
       <img src="昶青實業LOGO確定版-PNG.png" alt="TCC" class="logo-img">
-           <h2>數資中心APP</h2>
+           <h2>昶青數資中心APP</h2>
       
       <div class="form-group">
         <label for="folderSelect">部門選擇</label>
