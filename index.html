@@ -752,9 +752,9 @@
             animation: { startup: true, duration: 800, easing: 'out' },
             chartArea: { width: '90%', height: '30%' },
             backgroundColor: 'transparent',
-            bar: { groupWidth: '70%' }
-          
-        };
+            bar: { groupWidth: '70%' },
+            colors: ['#10b8e3'],  // 這裡設置柱子顏色，可以使用單一顏色或顏色數組
+              };
           const vendorChart = new google.visualization.ColumnChart(document.getElementById('chartVendor'));
           vendorChart.draw(vendorData, vendorOptions);
 
