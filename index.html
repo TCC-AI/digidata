@@ -770,8 +770,9 @@
             animation: { startup: true, duration: 800, easing: 'out' },
             chartArea: { width: '90%', height: '30%' },
             backgroundColor: 'transparent',
-            bar: { groupWidth: '70%' }
-          };
+            bar: { groupWidth: '70%' },
+            colors: ['#f2ab05'],  // 這裡設置柱子顏色，可以使用單一顏色或顏色數組
+            };
           const fileChart = new google.visualization.ColumnChart(document.getElementById('chartFile'));
           fileChart.draw(fileData, fileOptions);
         });
