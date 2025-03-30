@@ -293,7 +293,7 @@
     #statsButton::before {
     content: "📊";
     margin-right: 8px;
-    font-size: 0.8em;
+    font-size: 0.9em;
     display: inline-block;
     transition: all 0.3s ease;
     vertical-align: middle;  // 垂直對齊
@@ -703,20 +703,20 @@
           <div id="chartVendor" style="width:100%; height:200px;"></div>
           <hr style="border:none; height:2px; background:linear-gradient(90deg, transparent, rgba(33, 147, 176, 0.3), transparent); margin:30px 0;"/>
           <h3>查詢資料次數統計圖</h3>
-          <div id="chartFile" style="width:100%; height:200px;"></div>
-          <div style="text-align:center; margin-top:30px;">
+          <div id="chartFile" style="width:100%; height:100px;"></div>
+          <div style="text-align:center; margin-top:20px;">
             <button id="backButton" style="
               padding: 12px 25px; 
               background: linear-gradient(45deg, #2193b0, #6dd5ed); 
               border: none; 
               border-radius: 50px; 
               color: white; 
-              font-size: 2em; 
+              font-size: 1em; 
               cursor: pointer;
               box-shadow: 0 8px 15px rgba(33, 147, 176, 0.3), 0 4px 6px rgba(0,0,0,0.1);
               transition: all 0.3s ease;
               font-weight: bold;
-              min-height: 60px;
+              min-height: 40px;
             ">返回</button>
           </div>
         `;
@@ -749,7 +749,7 @@
             title: '部門次數統計圖',
             legend: { position: 'none' },
             animation: { startup: true, duration: 800, easing: 'out' },
-            chartArea: { width: '80%', height: '40%' },
+            chartArea: { width: '90%', height: '40%' },
             backgroundColor: 'transparent',
             bar: { groupWidth: '65%' }
           };
@@ -766,7 +766,7 @@
             title: '檔案次數統計圖',
             legend: { position: 'none' },
             animation: { startup: true, duration: 800, easing: 'out' },
-            chartArea: { width: '80%', height: '40%' },
+            chartArea: { width: '90%', height: '40%' },
             backgroundColor: 'transparent',
             bar: { groupWidth: '65%' }
           };
