@@ -447,6 +447,29 @@
         margin: 20px 0;
         transform: translateZ(0);
       }
+      #closeModal {
+  font-size: 28px;  /* 調整叉叉符號的大小 */
+  width: 40px;      /* 設置點擊區域寬度 */
+  height: 40px;     /* 設置點擊區域高度 */
+  line-height: 40px; /* 使叉叉垂直居中 */
+  text-align: center; /* 使叉叉水平居中 */
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #0b5269; /* 顏色可以根據您的設計調整 */
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 添加懸停效果 */
+#closeModal:hover {
+  background-color: rgba(11, 82, 105, 0.1);
+  transform: rotate(90deg);
+}
 
       select {
         -webkit-appearance: none; -moz-appearance: none; appearance: none;
