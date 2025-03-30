@@ -700,10 +700,10 @@
         statsContent.innerHTML = `
           <span id="closeModal">&times;</span>
           <h3>部門次數統計圖</h3>
-          <div id="chartVendor" style="width:100%; height:200px;"></div>
+          <div id="chartVendor" style="width:100%; height:20px;"></div>
           <hr style="border:none; height:2px; background:linear-gradient(90deg, transparent, rgba(33, 147, 176, 0.3), transparent); margin:20px 0;"/>
           <h3>查詢資料次數統計圖</h3>
-          <div id="chartFile" style="width:100%; height:200px;"></div>
+          <div id="chartFile" style="width:100%; height:0px;"></div>
           <div style="text-align:center; margin-top:10px;">
             <button id="backButton" style="
               padding: 12px 15px; 
@@ -749,7 +749,7 @@
             title: '部門次數統計圖',
             legend: { position: 'none' },
             animation: { startup: true, duration: 800, easing: 'out' },
-            chartArea: { width: '90%', height: '40%' },
+            chartArea: { width: '90%', height: '30%' },
             backgroundColor: 'transparent',
             bar: { groupWidth: '70%' }
           };
@@ -766,7 +766,7 @@
             title: '檔案次數統計圖',
             legend: { position: 'none' },
             animation: { startup: true, duration: 800, easing: 'out' },
-            chartArea: { width: '90%', height: '40%' },
+            chartArea: { width: '90%', height: '30%' },
             backgroundColor: 'transparent',
             bar: { groupWidth: '70%' }
           };
