@@ -753,7 +753,8 @@
             chartArea: { width: '90%', height: '30%' },
             backgroundColor: 'transparent',
             bar: { groupWidth: '70%' }
-          };
+            colors: ['#10b8e3']  // 設置柱子顏色為藍色
+        };
           const vendorChart = new google.visualization.ColumnChart(document.getElementById('chartVendor'));
           vendorChart.draw(vendorData, vendorOptions);
 
