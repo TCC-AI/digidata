@@ -175,12 +175,12 @@
         margin-top: 20px;
       }
       .logo-img {
-  max-width: 200px;
-  margin: 0 auto;
-  display: block; /* 讓 img 本身置中 */
-  border-radius: 0px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0);
-}
+        max-width: 200px;
+        margin: 0 auto;
+        display: block; /* 讓 img 本身置中 */
+        border-radius: 0px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0);
+      }
       h2::after {
         content: "";
         position: absolute;
@@ -216,7 +216,7 @@
         border-radius: 20px;
       }
 
-      select, button, input[type="text"] {
+      select, button, input[type="text"], input[type="password"] {
         padding: 15px 15px;
         border: 2px solid rgba(33, 147, 176, 0.3);
         border-radius: 20px;
@@ -227,7 +227,7 @@
         box-shadow: 0 4px 10px rgba(0,0,0,0.05), inset 0 2px 5px rgba(255,255,255,0.5);
         min-height: 40px;
       }
-      input[type="text"]:focus, select:focus {
+      input[type="text"]:focus, input[type="password"]:focus, select:focus {
         border-color: #2193b0;
         box-shadow: 0 0 15px rgba(33, 147, 176, 0.5), inset 0 2px 5px rgba(255,255,255,0.6);
         background-color: rgba(255, 255, 255, 0.5);
@@ -291,22 +291,65 @@
         box-shadow: 0 8px 20px rgba(32, 178, 170, 0.5), 0 5px 12px rgba(0,0,0,0.2);
         transform: translateY(-2px);
       }
-    #statsButton::before {
-    content: "📊";
-    margin-right: 8px;
-    font-size: 0.9em;
-    display: inline-block;
-    transition: all 0.3s ease;
-    vertical-align: middle;  // 垂直對齊
-    position: relative;
-    top: -1px;  // 微調位置
-}
+      #statsButton::before {
+        content: "📊";
+        margin-right: 8px;
+        font-size: 0.9em;
+        display: inline-block;
+        transition: all 0.3s ease;
+        vertical-align: middle;  // 垂直對齊
+        position: relative;
+        top: -1px;  // 微調位置
+      }
 
-#statsButton:hover::before {
-    transform: rotate(360deg);  // 懸停時旋轉效果
-}
+      #statsButton:hover::before {
+        transform: rotate(360deg);  // 懸停時旋轉效果
+      }
 
+      /* ----- Logout Button ----- */
+      #logoutButton {
+        position: absolute;
+        top: 20px; right: 20px;
+        padding: 8px 15px;
+        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        color: white; border: none; border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4), 0 3px 8px rgba(0,0,0,0.15);
+        transition: all 0.3s ease;
+        font-size: 0.9em; font-weight: bold;
+        display: flex; align-items: center; justify-content: center;
+        min-height: 40px;
+      }
+      #logoutButton:hover {
+        background: linear-gradient(45deg, #ff8e8e, #ff6b6b);
+        box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5), 0 5px 12px rgba(0,0,0,0.2);
+        transform: translateY(-2px);
+      }
+      #logoutButton::before {
+        content: "🚪";
+        margin-right: 8px;
+        font-size: 0.9em;
+        display: inline-block;
+        transition: all 0.3s ease;
+      }
 
+      /* ----- User Info ----- */
+      #userInfo {
+        position: absolute;
+        top: 70px; right: 20px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
+        border-radius: 10px;
+        font-size: 0.9em;
+        color: #054496;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        text-align: right;
+      }
+      #userName {
+        font-weight: bold;
+        font-size: 1.1em;
+      }
 
       /* ----- Result (iframe) ----- */
       #result {
@@ -349,510 +392,508 @@
         margin-right: 12px;
       }
 
+      /* ----- Login Screen ----- */
+      #loginScreen {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: linear-gradient(135deg, #a5f571 30%, #07e9f5 50%, #054175 100%);
+        background-size: 250% 250%;
+        animation: gradientBG 15s ease infinite;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #loginBox {
+        background: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2), 0 5px 15px rgba(0,0,0,0.1);
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+      }
+      #loginBox h3 {
+        color: #054496;
+        margin-bottom: 20px;
+        font-size: 1.8em;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      }
+      #loginError {
+        color: #ff6b6b;
+        margin: 10px 0;
+        font-weight: bold;
+        display: none;
+      }
+
       /* ----- Responsive ----- */
       @media (max-width: 820px) {
         .container { padding: 30px; }
         h2 { font-size: 2.2em; }
         label { font-size: 1.3em; }
-        select, button, input[type="text"] { font-size: 1.3em; }
+        select, button, input[type="text"], input[type="password"] { font-size: 1.3em; }
         iframe { height: 500px; }
         a.download-link { font-size: 1em; padding: 12px 25px; }
       }
       @media only screen and (max-width: 820px) and (-webkit-min-device-pixel-ratio: 2) {
         h2 { font-size: 2.2em; }
         label { font-size: 1.3em; }
-        select, button, input[type="text"] { font-size: 1.3em; padding: 12px 15px; }
-        #statsButton { font-size: 0.8em; }
+        select, button, input[type="text"], input[type="password"] { font-size: 1.3em; padding: 12px 15px; }
+        #statsButton, #logoutButton { font-size: 0.8em; }
         a.download-link { font-size: 1em; }
       }
-      @media (max-width: 820px) {
-        .container { padding: 20px; }
-        h2 { font-size: 2.2em; }
-        label { font-size: 1.3em; }
-        select, button, input[type="text"] {
-          font-size: 1.3em; padding: 12px 15px;
-        }
-        iframe { height: 500px; }
-        a.download-link { font-size: 1em; padding: 10px 20px; }
+           @media (max-width: 820px) {
+        .container { padding: 15px; }
+        #statsButton { top: 180px; }
+        #userInfo { top: 120px; font-size: 0.8em; }
       }
 
-      /* ----- Modal (Stats) ----- */
-      #statsModal {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(5px);
+      /* ----- Modal ----- */
+      .modal {
         display: none;
-        justify-content: center;
-        align-items: center;
+        position: fixed;
         z-index: 1000;
-        animation: fadeIn 0.3s ease-out;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        overflow: auto;
       }
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-      #statsContent {
-        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f9 100%);
-        padding: 30px;
-        border-radius: 20px;
-        width: 90%; max-width: 1000px;
+      .modal-content {
         position: relative;
-        box-shadow: 0 25px 50px rgba(0,0,0,0.25), 0 10px 20px rgba(0,0,0,0.2);
-        border: 1px solid rgba(255,255,255,0.5);
-        animation: slideUp 0.4s ease-out;
-        transform: translateZ(0);
+        background: white;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        width: 80%;
+        max-width: 800px;
+        animation: modalOpen 0.4s;
       }
-      @keyframes slideUp {
-        from { transform: translateY(50px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
+      @keyframes modalOpen {
+        from { opacity: 0; transform: translateY(-50px); }
+        to { opacity: 1; transform: translateY(0); }
       }
-      #closeModal {
+      .close {
         position: absolute;
-        top: 10px; right: 20px;
-        font-size: 60px; font-weight: bold; color: #2193b0;
-        cursor: pointer; transition: all 0.3s ease;
-        width: 60px; height: 60px;
-        display: flex; align-items: center; justify-content: center;
-        border-radius: 50%;
-        min-height: 60px;
+        top: 15px; right: 20px;
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s;
       }
-      #closeModal:hover {
-        color: #0b5269;
-        background-color: rgba(33, 147, 176, 0.1);
+      .close:hover {
+        color: #333;
         transform: rotate(90deg);
       }
-      #statsContent h3 {
-        color: #0b5269;
-        font-size: 1.5em;
+      .chart-container {
+        width: 100%;
+        height: 400px;
         margin: 20px 0;
-        text-align: center;
-        position: relative; padding-bottom: 10px;
-      }
-      #statsContent h3::after {
-        content: "";
-        position: absolute;
-        bottom: 0; left: 50%;
-        transform: translateX(-50%);
-        width: 200px; height: 0px;
-        background: linear-gradient(90deg, #2193b0, #6dd5ed);
-        border-radius: 2px;
-      }
-      #chartVendor, #chartFile {
-        border-radius: 15px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        padding: 15px;
-        background-color: white;
-        margin: 20px 0;
-        transform: translateZ(0);
-      }
-      #closeModal {
-  font-size: 22px;  /* 調整叉叉符號的大小 */
-  width: 40px;      /* 設置點擊區域寬度 */
-  height: 40px;     /* 設置點擊區域高度 */
-  line-height: 40px; /* 使叉叉垂直居中 */
-  text-align: center; /* 使叉叉水平居中 */
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 6px;
-  color: #0b5269; /* 顏色可以根據您的設計調整 */
-  transition: all 0.3s ease;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* 添加懸停效果 */
-#closeModal:hover {
-  background-color: rgba(11, 82, 105, 0.1);
-  transform: rotate(90deg);
-}
-
-      select {
-        -webkit-appearance: none; -moz-appearance: none; appearance: none;
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232193b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-        background-repeat: no-repeat;
-        background-position: right 15px center;
-        background-size: 20px;
-        padding-right: 45px;
-      }
-      input[type="text"]::placeholder {
-        color: #aab7c4;
       }
     </style>
+  </head>
 
-    <!-- 前端程式 (JS) -->
+  <body>
+    <!-- 登入畫面 -->
+    <div id="loginScreen">
+      <div id="loginBox">
+        <img src="https://drive.google.com/uc?export=view&id=1xvECTwTMNJrqzqGUYQtYgQDJJADTA5Ql" alt="TCC" class="logo-img">
+        <h3>昶青數位資料中心登入</h3>
+        <div class="form-group">
+          <label for="username">使用者帳號</label>
+          <input type="text" id="username" placeholder="請輸入帳號">
+        </div>
+        <div class="form-group">
+          <label for="password">使用者密碼</label>
+          <input type="password" id="password" placeholder="請輸入密碼">
+        </div>
+        <div id="loginError"></div>
+        <button onclick="loginUser()">登入系統</button>
+      </div>
+    </div>
+
+    <!-- 主應用程式 -->
+    <div class="container">
+      <img src="https://drive.google.com/uc?export=view&id=1xvECTwTMNJrqzqGUYQtYgQDJJADTA5Ql" alt="TCC" class="logo-img">
+      <h2>昶青數位資料中心</h2>
+      
+      <button id="logoutButton" onclick="logoutUser()">登出</button>
+      <div id="userInfo">
+        歡迎, <span id="userName"></span>
+        <div id="userRole"></div>
+      </div>
+      <button id="statsButton" onclick="showStats()">使用統計</button>
+      
+      <div class="form-group">
+        <label for="folderSelect">請選擇部門</label>
+        <select id="folderSelect" onchange="loadFiles()">
+          <option value="">請選擇...</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="searchInput">檔案搜尋</label>
+        <input type="text" id="searchInput" placeholder="請輸入關鍵字..." oninput="loadFiles()">
+      </div>
+      
+      <div class="form-group">
+        <label for="fileSelect">請選擇檔案</label>
+        <select id="fileSelect" onchange="showFile()">
+          <option value="">請選擇...</option>
+        </select>
+      </div>
+      
+      <div id="result"></div>
+    </div>
+    
+    <!-- 統計模態視窗 -->
+    <div id="statsModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>使用統計</h2>
+        <div id="vendorsChart" class="chart-container"></div>
+        <div id="filesChart" class="chart-container"></div>
+      </div>
+    </div>
+
     <script>
-      // ========================================================================
-      // 1) 請將此改成您 Apps Script 部署後取得的 Web App URL：
-      //    ex: "https://script.google.com/macros/s/XXXXXXXX/exec"
-      // ========================================================================
-      const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbziWPolDUDdTEr2-rTWpoi7WGzllSRMVElHK-Zt6xFVO_W4UHQOkedtBSL56iZybzsAUg/exec";
-
-
-      // ========================================================================
-      // 2) 頁面載入後，呼叫後端來取得子資料夾（部門清單），並綁定一些事件。
-      // ========================================================================
+      // 全域變數
+      const GAS_WEBAPP_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+      let currentUser = null;
+      
+      // 檢查是否已登入
       window.onload = function() {
-        // 先呼叫 getSubfolders() → 取得部門資料
-        callGAS('getSubfolders')
-          .then(data => {
-            if (data.success) {
-              populateFolderDropdown(data.result);
-            } else {
-              console.error("Error:", data.error);
-            }
-          })
-          .catch(err => console.error("Fetch error:", err));
-
-        // 波紋效果
-        document.addEventListener('click', function(e) {
-          if (e.target.tagName === 'BUTTON') {
-            createRipple(e);
-          }
-        });
-
-        // 浮動的第三個字母 'C'
-        const thirdLetter = document.createElement('div');
-        thirdLetter.className = 'third-letter';
-        thirdLetter.textContent = 'C';
-        document.body.appendChild(thirdLetter);
+        const token = localStorage.getItem('authToken');
+        if (token) {
+          // 嘗試使用 token 獲取部門資料，驗證 token 是否有效
+          callGAS('getSubfolders')
+            .then(data => {
+              if (data.success) {
+                // Token 有效，初始化應用
+                document.getElementById('loginScreen').style.display = 'none';
+                currentUser = {
+                  username: localStorage.getItem('username'),
+                  name: localStorage.getItem('name'),
+                  role: localStorage.getItem('role')
+                };
+                updateUserInfo();
+                populateFolderDropdown(data.result);
+              } else {
+                // Token 無效，清除並顯示登入畫面
+                localStorage.removeItem('authToken');
+                document.getElementById('loginScreen').style.display = 'flex';
+              }
+            })
+            .catch(err => {
+              console.error("Fetch error:", err);
+              localStorage.removeItem('authToken');
+              document.getElementById('loginScreen').style.display = 'flex';
+            });
+        }
       };
 
-      // ========================================================================
-      // 3) fetch 封裝：action + params
-      // ========================================================================
-      function callGAS(action, params = {}) {
+      // 登入函數
+      function loginUser() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const loginError = document.getElementById('loginError');
+        
+        if (!username || !password) {
+          loginError.textContent = '請輸入帳號和密碼';
+          loginError.style.display = 'block';
+          return;
+        }
+        
+        // 呼叫登入 API
+        callGAS('login', { username, password }, false)
+          .then(data => {
+            if (data.success) {
+              // 保存 token 和用戶信息到 localStorage
+              localStorage.setItem('authToken', data.result.token);
+              localStorage.setItem('username', data.result.username);
+              localStorage.setItem('name', data.result.name);
+              localStorage.setItem('role', data.result.role);
+              
+              // 設置當前用戶
+              currentUser = {
+                username: data.result.username,
+                name: data.result.name,
+                role: data.result.role
+              };
+              
+              // 隱藏登入畫面
+              document.getElementById('loginScreen').style.display = 'none';
+              
+              // 更新用戶信息顯示
+              updateUserInfo();
+              
+              // 初始化應用
+              callGAS('getSubfolders')
+                .then(data => {
+                  if (data.success) {
+                    populateFolderDropdown(data.result);
+                  } else {
+                    console.error("Error:", data.error);
+                  }
+                })
+                .catch(err => console.error("Fetch error:", err));
+            } else {
+              loginError.textContent = data.error || '登入失敗';
+              loginError.style.display = 'block';
+            }
+          })
+          .catch(err => {
+            console.error('登入錯誤:', err);
+            loginError.textContent = '登入發生錯誤，請稍後再試';
+            loginError.style.display = 'block';
+          });
+      }
+
+      // 登出函數
+      function logoutUser() {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('username');
+        localStorage.removeItem('name');
+        localStorage.removeItem('role');
+        currentUser = null;
+        document.getElementById('loginScreen').style.display = 'flex';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('loginError').style.display = 'none';
+      }
+
+      // 更新用戶信息顯示
+      function updateUserInfo() {
+        if (currentUser) {
+          document.getElementById('userName').textContent = currentUser.name || currentUser.username;
+          document.getElementById('userRole').textContent = currentUser.role || '';
+        }
+      }
+
+      // 調用 Google Apps Script
+      function callGAS(action, params = {}, useToken = true) {
+        // 如果需要 token 且不是登入操作，添加 token
+        if (useToken && action !== 'login') {
+          const token = localStorage.getItem('authToken');
+          if (token) {
+            params.token = token;
+          }
+        }
+        
         const query = new URLSearchParams({ action, ...params });
-        const url   = GAS_WEBAPP_URL + "?" + query.toString();
+        const url = GAS_WEBAPP_URL + "?" + query.toString();
 
         return fetch(url)
           .then(response => {
             if (!response.ok) {
               throw new Error("HTTP error, status=" + response.status);
             }
-            return response.json(); // 回傳 JSON
+            return response.json();
+          })
+          .then(data => {
+            // 檢查是否需要重新登入
+            if (data.needLogin) {
+              localStorage.removeItem('authToken');
+              document.getElementById('loginScreen').style.display = 'flex';
+              throw new Error('需要重新登入');
+            }
+            return data;
           });
       }
 
-      // 波紋效果
+      // 填充部門下拉選單
+      function populateFolderDropdown(folders) {
+        const select = document.getElementById('folderSelect');
+        // 清空選項，只保留第一個
+        select.innerHTML = '<option value="">請選擇...</option>';
+        
+        folders.forEach(folder => {
+          const option = document.createElement('option');
+          option.value = folder.id;
+          option.textContent = folder.name;
+          select.appendChild(option);
+        });
+      }
+
+      // 載入檔案
+      function loadFiles() {
+        const folderId = document.getElementById('folderSelect').value;
+        if (!folderId) return;
+        
+        const keyword = document.getElementById('searchInput').value;
+        
+        callGAS('getFiles', { folderId, keyword })
+          .then(data => {
+            if (data.success) {
+              populateFileDropdown(data.result);
+            } else {
+              console.error("Error:", data.error);
+            }
+          })
+          .catch(err => console.error("Fetch error:", err));
+      }
+
+      // 填充檔案下拉選單
+      function populateFileDropdown(files) {
+        const select = document.getElementById('fileSelect');
+        // 清空選項，只保留第一個
+        select.innerHTML = '<option value="">請選擇...</option>';
+        
+        files.forEach(file => {
+          const option = document.createElement('option');
+          option.value = file.id;
+          option.textContent = file.name;
+          option.dataset.mimeType = file.mimeType;
+          select.appendChild(option);
+        });
+      }
+
+      // 顯示檔案
+      function showFile() {
+        const fileSelect = document.getElementById('fileSelect');
+        const fileId = fileSelect.value;
+        if (!fileId) {
+          document.getElementById('result').innerHTML = '';
+          return;
+        }
+        
+        const fileName = fileSelect.options[fileSelect.selectedIndex].text;
+        const folderSelect = document.getElementById('folderSelect');
+        const folderName = folderSelect.options[folderSelect.selectedIndex].text;
+        
+        callGAS('getFilePreviewUrl', { fileId })
+          .then(data => {
+            if (data.success) {
+              displayFile(data.result);
+              // 記錄檢索
+              callGAS('logRetrieval', { 
+                vendorName: folderName, 
+                fileName: fileName,
+                username: currentUser ? currentUser.name || currentUser.username : ''
+              });
+            } else {
+              console.error("Error:", data.error);
+            }
+          })
+          .catch(err => console.error("Fetch error:", err));
+      }
+
+      // 顯示檔案內容
+      function displayFile(fileInfo) {
+        const resultDiv = document.getElementById('result');
+        
+        // 判斷檔案類型
+        if (fileInfo.mimeType === 'application/pdf' || 
+            fileInfo.mimeType.includes('google-apps')) {
+          // PDF 或 Google 文件，使用 iframe 嵌入
+          resultDiv.innerHTML = `<iframe src="${fileInfo.url}" allowfullscreen></iframe>`;
+        } else {
+          // 其他檔案類型，提供下載連結
+          resultDiv.innerHTML = `<a href="${fileInfo.url}" class="download-link" target="_blank">下載 ${fileInfo.name}</a>`;
+        }
+      }
+
+      // 顯示統計資料
+      function showStats() {
+        callGAS('getStatisticsDataOnly')
+          .then(data => {
+            if (data.success) {
+              document.getElementById('statsModal').style.display = 'block';
+              drawCharts(data.result);
+            } else {
+              console.error("Error:", data.error);
+            }
+          })
+          .catch(err => console.error("Fetch error:", err));
+      }
+
+      // 關閉模態視窗
+      function closeModal() {
+        document.getElementById('statsModal').style.display = 'none';
+      }
+
+      // 繪製圖表
+      function drawCharts(data) {
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(() => {
+          // 廠商統計圖
+          if (data.vendors.length > 0) {
+            const vendorsData = new google.visualization.DataTable();
+            vendorsData.addColumn('string', '部門');
+            vendorsData.addColumn('number', '查詢次數');
+            vendorsData.addRows(data.vendors);
+            
+            const vendorsOptions = {
+              title: '部門查詢統計',
+              pieHole: 0.4,
+              colors: ['#20b2aa', '#3cb371', '#4682b4', '#6495ed', '#7b68ee']
+            };
+            
+            const vendorsChart = new google.visualization.PieChart(document.getElementById('vendorsChart'));
+            vendorsChart.draw(vendorsData, vendorsOptions);
+          } else {
+            document.getElementById('vendorsChart').innerHTML = '<p>暫無部門查詢數據</p>';
+          }
+          
+          // 檔案統計圖
+          if (data.files.length > 0) {
+            const filesData = new google.visualization.DataTable();
+            filesData.addColumn('string', '檔案');
+            filesData.addColumn('number', '查詢次數');
+            filesData.addRows(data.files);
+            
+            const filesOptions = {
+              title: '檔案查詢統計',
+              bars: 'horizontal',
+              colors: ['#2193b0']
+            };
+            
+            const filesChart = new google.visualization.BarChart(document.getElementById('filesChart'));
+            filesChart.draw(filesData, filesOptions);
+          } else {
+            document.getElementById('filesChart').innerHTML = '<p>暫無檔案查詢數據</p>';
+          }
+        });
+      }
+
+      // 按鈕波紋效果
       function createRipple(event) {
         const button = event.currentTarget;
-        if (!button || button.tagName !== 'BUTTON') return;
-
-        // 移除任何現有的波紋
-        const ripples = button.getElementsByClassName('ripple');
-        for (let i = 0; i < ripples.length; i++) {
-          ripples[i].remove();
-        }
-
-        const circle = document.createElement('span');
+        
+        const circle = document.createElement("span");
         const diameter = Math.max(button.clientWidth, button.clientHeight);
-        const radius   = diameter / 2;
-
-        const rect = button.getBoundingClientRect();
-        circle.style.width  = circle.style.height = `${diameter}px`;
-        circle.style.left   = `${event.clientX - rect.left - radius}px`;
-        circle.style.top    = `${event.clientY - rect.top - radius}px`;
-        circle.classList.add('ripple');
-
+        const radius = diameter / 2;
+        
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+        circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+        circle.classList.add("ripple");
+        
+        const ripple = button.getElementsByClassName("ripple")[0];
+        if (ripple) {
+          ripple.remove();
+        }
+        
         button.appendChild(circle);
       }
 
-      // ========================================================================
-      // 4) 取得資料夾清單 → 更新「部門選擇」下拉
-      // ========================================================================
-      function populateFolderDropdown(folders) {
-        const folderSelect = document.getElementById("folderSelect");
-        folderSelect.innerHTML = "";
-
-        const defaultOption = document.createElement("option");
-        defaultOption.value = "";
-        defaultOption.text  = "請選擇部門";
-        folderSelect.appendChild(defaultOption);
-
-        folders.forEach(folder => {
-          const option = document.createElement("option");
-          option.value = folder.id;
-          option.text  = folder.name;
-          folderSelect.appendChild(option);
-        });
-      }
-
-      function onFolderChange() {
-        const folderId = document.getElementById("folderSelect").value;
-        const keyword  = document.getElementById("keywordInput").value.trim();
-        const fileSelect = document.getElementById("fileSelect");
-        const resultDiv  = document.getElementById("result");
-
-        fileSelect.innerHTML = "";
-        resultDiv.innerHTML  = "";
-
-        if (!folderId) return;
-
-        callGAS('getFiles', { folderId, keyword })
-          .then(data => {
-            if (!data.success) {
-              console.error("getFiles error:", data.error);
-              return;
-            }
-            populateFileDropdown(data.result);
-          })
-          .catch(err => console.error("Error calling getFiles:", err));
-      }
-
-      function onKeywordChange() {
-        const folderId = document.getElementById("folderSelect").value;
-        if (folderId) {
-          onFolderChange();
-        }
-      }
-
-      function populateFileDropdown(files) {
-        const fileSelect = document.getElementById("fileSelect");
-        fileSelect.innerHTML = "";
-
-        const defaultOption = document.createElement("option");
-        defaultOption.value = "";
-        defaultOption.text  = "請選擇資料";
-        fileSelect.appendChild(defaultOption);
-
-        if (!files.length) {
-          const noOption = document.createElement("option");
-          noOption.value = "";
-          noOption.text  = "無符合的檔案";
-          fileSelect.appendChild(noOption);
-          return;
-        }
-
-        files.forEach(file => {
-          const option = document.createElement("option");
-          option.value = file.id;
-          option.text  = file.name;
-          option.dataset.mimeType = file.mimeType;
-          fileSelect.appendChild(option);
-        });
-      }
-
-      // ========================================================================
-      // 5) 查詢資料 → 先 logRetrieval，再 getFilePreviewUrl
-      // ========================================================================
-      function retrieveFile() {
-        const folderSelect = document.getElementById("folderSelect");
-        const vendorName   = folderSelect.options[folderSelect.selectedIndex].text;
-
-        const fileSelect = document.getElementById("fileSelect");
-        const fileId     = fileSelect.value;
-        const fileName   = fileSelect.options[fileSelect.selectedIndex]?.text;
-
-        if (!fileId) {
-          alert("請先選擇檔案！");
-          return;
-        }
-
-        // 1) 寫使用紀錄
-        callGAS('logRetrieval', { vendorName, fileName })
-          .then(logData => {
-            if (!logData.success) {
-              console.error("logRetrieval error:", logData.error);
-              // 即使紀錄失敗也繼續嘗試 getFilePreviewUrl
-            }
-            return callGAS('getFilePreviewUrl', { fileId });
-          })
-          .then(fileData => {
-            if (!fileData.success) {
-              console.error("getFilePreviewUrl error:", fileData.error);
-              return;
-            }
-            displayFileContents(fileData.result);
-          })
-          .catch(err => console.error("Error retrieving file:", err));
-      }
-
-      function displayFileContents(fileInfo) {
-        const resultDiv = document.getElementById("result");
-        resultDiv.innerHTML = "";
-
-        // fileInfo = { name, url, mimeType }
-        if (fileInfo.mimeType === "application/pdf") {
-          const iframe = document.createElement("iframe");
-          iframe.src = fileInfo.url;
-          resultDiv.appendChild(iframe);
-        } else if (
-          fileInfo.mimeType.startsWith("application/vnd.openxmlformats-officedocument") ||
-          fileInfo.mimeType.startsWith("application/vnd.google-apps")
-        ) {
-          const iframe = document.createElement("iframe");
-          iframe.src = fileInfo.url;
-          resultDiv.appendChild(iframe);
-        } else {
-          const link = document.createElement("a");
-          link.href   = fileInfo.url;
-          link.target = "_blank";
-          link.className = "download-link";
-          link.textContent = "點擊此處下載檔案";
-          resultDiv.appendChild(link);
-        }
-      }
-
-      // ========================================================================
-      // 6) 查詢統計 → getStatisticsDataOnly
-      // ========================================================================
-      function showStatistics() {
-        callGAS('getStatisticsDataOnly')
-          .then(statData => {
-            if (!statData.success) {
-              console.error("getStatisticsDataOnly error:", statData.error);
-              return;
-            }
-            drawCharts(statData.result);
-          })
-          .catch(err => console.error("Error calling getStatisticsDataOnly:", err));
-      }
-
-// ========================================================================
-      // 7) 繪製圖表 (Google Charts)
-      // ========================================================================
-      function drawCharts(statData) {
-        const modal        = document.getElementById("statsModal");
-        const statsContent = document.getElementById("statsContent");
-
-        // 初始化內容
-        statsContent.innerHTML = `
-          <span id="closeModal">&times;</span>
-          <h3>【部門熱度】統計圖</h3>
-          <div id="chartVendor" style="width:100%; height:200px;"></div>
-          <hr style="border:none; height:2px; background:linear-gradient(90deg, transparent, rgba(33, 147, 176, 0.3), transparent); margin:20px 0;"/>
-          <h3>【檔案熱度】統計圖</h3>
-          <div id="chartFile" style="width:100%; height:200px;"></div>
-          <div style="text-align:center; margin-top:10px;">
-            <button id="backButton" style="
-              padding: 12px 15px; 
-              background: linear-gradient(45deg, #2193b0, #6dd5ed); 
-              border: none; 
-              border-radius: 50px; 
-              color: white; 
-              font-size: 0.8em; 
-              cursor: pointer;
-              box-shadow: 0 8px 15px rgba(33, 147, 176, 0.3), 0 4px 6px rgba(0,0,0,0.1);
-              transition: all 0.3s ease;
-              font-weight: bold;
-              min-height: 10px;
-            ">返回</button>
-          </div>
-        `;
-        modal.style.display = "flex";
-
-        const closeBtn = document.getElementById("closeModal");
-        closeBtn.onclick = function() {
+      // 點擊模態視窗外部關閉
+      window.onclick = function(event) {
+        const modal = document.getElementById('statsModal');
+        if (event.target === modal) {
           modal.style.display = "none";
-          statsContent.innerHTML = "";
-        };
-        window.onclick = function(event) {
-          if (event.target === modal) {
-            modal.style.display = "none";
-            statsContent.innerHTML = "";
-          }
-        };
+        }
+      };
 
-        // 載入 Google Charts
-        google.charts.load("current", { packages:["corechart"] });
-        google.charts.setOnLoadCallback(function() {
-          // statData = { vendors: [...], files: [...] }
-
-          // --- 部門 ---
-          const vendorData = new google.visualization.DataTable();
-          vendorData.addColumn('string', '部門');
-          vendorData.addColumn('number', '次數');
-          vendorData.addRows(statData.vendors || []);
-
-          const vendorOptions = {
-            title: '【部門熱度】統計圖',
-            legend: { position: 'none' },
-            animation: { startup: true, duration: 800, easing: 'out' },
-            chartArea: { width: '90%', height: '30%' },
-            backgroundColor: 'transparent',
-            bar: { groupWidth: '70%' },
-            colors: ['#10b8e3'],  // 這裡設置柱子顏色，可以使用單一顏色或顏色數組
-              };
-          const vendorChart = new google.visualization.ColumnChart(document.getElementById('chartVendor'));
-          vendorChart.draw(vendorData, vendorOptions);
-
-          // --- 檔案 ---
-          const fileData = new google.visualization.DataTable();
-          fileData.addColumn('string', '檔案名稱');
-          fileData.addColumn('number', '次數');
-          fileData.addRows(statData.files || []);
-
-          const fileOptions = {
-            title: '【檔案熱度】統計圖',
-            legend: { position: 'none' },
-            animation: { startup: true, duration: 800, easing: 'out' },
-            chartArea: { width: '90%', height: '30%' },
-            backgroundColor: 'transparent',
-            bar: { groupWidth: '70%' },
-            colors: ['#f2ab05','#2193b0', '#6dd5ed', '#20b2aa', '#3cb371', '#4682b4'],   // 這裡設置柱子顏色，可以使用單一顏色或顏色數組
-            };
-          const fileChart = new google.visualization.ColumnChart(document.getElementById('chartFile'));
-          fileChart.draw(fileData, fileOptions);
-        });
-
-        // 返回按鈕
-        const backBtn = document.getElementById("backButton");
-        backBtn.addEventListener("click", function(e) {
-          createRipple(e);
-          modal.style.display = "none";
-          statsContent.innerHTML = "";
-        });
-      }
-    </script>
-  </head>
-
-  <body>
-    <!-- 主容器 -->
-    <div class="container">
-      
-      <button id="statsButton">查詢統計</button>
-      <img src="昶青實業LOGO確定版-PNG.png" alt="TCC" class="logo-img">
-           <h2>昶青數資中心APP</h2>
-
-      <div class="form-group">
-        <label for="folderSelect">部門選擇</label>
-        <select id="folderSelect" onchange="onFolderChange()">
-          <option value="">請選擇部門</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label for="keywordInput">關鍵字搜尋</label>
-        <input type="text" id="keywordInput" placeholder="輸入檔案名稱關鍵字" onchange="onKeywordChange()">
-      </div>
-      
-      <div class="form-group">
-        <label for="fileSelect">檔案選擇</label>
-        <select id="fileSelect">
-          <option value="">請選擇檔案</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <button onclick="retrieveFile()">查詢資料</button>
-      </div>
-       <h6 style="text-align: center; color: #c4c4c2;">Designed by T.C.C.管理本部</h6> 
-      <div id="result"></div>
-    </div>
-    
-    <!-- 統計圖表的模態窗 -->
-    <div id="statsModal">
-      <div id="statsContent"></div>
-    </div>
-
-    <!-- 為「查詢統計」按鈕綁定事件 -->
-    <script>
-      document.getElementById("statsButton").addEventListener("click", showStatistics);
+      // 浮動的第三個字母 'C'
+      const thirdLetter = document.createElement('div');
+      thirdLetter.className = 'third-letter';
+      thirdLetter.textContent = 'C';
+      document.body.appendChild(thirdLetter);
     </script>
   </body>
 </html>
+
