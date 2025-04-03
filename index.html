@@ -546,7 +546,7 @@
         <label for="typeSelect">請選擇類別</label>
         <select id="typeSelect" onchange="loadFiles()">
           <option value="all" selected>全部文件</option>
-          <option value="辦法">辦法計畫</option>
+          <option value="辦法">辦法</option>
           <option value="其他文件">其他文件</option>
         </select>
       </div>
@@ -747,9 +747,9 @@
       if (data.success) {
         let files = data.result;
 
-        if (category === '辦法計畫') {
+        if (category === '辦法') {
           // 這裡把我們想找的詞組放進陣列
-          const keywords = ['辦法', '計畫', '細則', '獎金'];
+          const keywords = ['辦法', '計畫', '細則'];
           files = files.filter(file => {
             // 先轉成小寫，比較可靠
             const fileNameLower = file.name.toLowerCase();
@@ -758,7 +758,7 @@
           });
         } else if (category === '其他文件') {
           // 「其他文件」則排除那些關鍵字
-          const keywords = ['辦法', '計畫', '細則', '獎金'];
+          const keywords = ['辦法', '計畫', '細則'];
           files = files.filter(file => {
             const fileNameLower = file.name.toLowerCase();
             // 若檔名中「完全不包含」這些詞才保留
