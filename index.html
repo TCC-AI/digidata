@@ -633,6 +633,8 @@
               localStorage.setItem('username', data.result.username);
               localStorage.setItem('name', data.result.name);
               localStorage.setItem('role', data.result.role);
+               // ★ 把 loginRowIndex 也一起儲存
+              localStorage.setItem('loginRowIndex', data.result.loginRowIndex || '');
               
               // 設置當前用戶
               currentUser = {
@@ -669,18 +671,40 @@
           });
       }
 
-      // 登出函數
       function logoutUser() {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('username');
-        localStorage.removeItem('name');
-        localStorage.removeItem('role');
-        currentUser = null;
-        document.getElementById('loginScreen').style.display = 'flex';
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('loginError').style.display = 'none';
-      }
+  const loginRowIndex = localStorage.getItem('loginRowIndex');
+  if (loginRowIndex) {
+    callGAS('logLogout', { rowIndex: loginRowIndex })
+      .then(data => {
+        console.log("Logout time recorded:", data);
+        // 後端寫成功後，再清除 localStorage
+        cleanupAndShowLogin();
+      })
+      .catch(err => {
+        console.error("Logout error:", err);
+        // 不管成功與否，都先執行清理
+        cleanupAndShowLogin();
+      });
+  } else {
+    // 如果沒 rowIndex，就直接登出即可
+    cleanupAndShowLogin();
+  }
+}
+
+function cleanupAndShowLogin() {
+  // 移除所有登入資訊
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('username');
+  localStorage.removeItem('name');
+  localStorage.removeItem('role');
+  localStorage.removeItem('loginRowIndex');
+
+  currentUser = null;
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('username').value = '';
+  document.getElementById('password').value = '';
+  document.getElementById('loginError').style.display = 'none';
+}
 
       // 更新用戶信息顯示
       function updateUserInfo() {
