@@ -844,7 +844,13 @@
               pieSliceTextStyle: {
                 fontSize: 14 // 控制圓餅圖上文字的大小
               }
-               
+               // 關鍵設置：移除圓餅圖上的數字標籤
+              pieSliceText: 'none',
+              legend: {
+                position: 'bottom',
+                textStyle: {
+                  fontSize: 14
+                }
             };
             
             const vendorsChart = new google.visualization.PieChart(document.getElementById('vendorsChart'));
@@ -915,4 +921,3 @@
     </script>
   </body>
 </html>
-
