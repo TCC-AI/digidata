@@ -832,7 +832,7 @@
               legend: { position: 'bottom' },
               colors: ['#20b2aa', '#3cb371', '#4682b4', '#6495ed', '#7b68ee'],
               titleTextStyle: {
-                fontSize: 24,  // 設定標題字體大小
+                fontSize: 18,  // 設定標題字體大小
                 bold: true     // 設定標題為粗體
               }
             };
@@ -852,8 +852,12 @@
             
             const filesOptions = {
               title: '【檔案熱度】查詢統計',
-              bars: 'horizontal',
-              colors: ['#2193b0']
+              legend: { position: 'bottom' },
+              colors: ['#20b2aa', '#3cb371', '#4682b4', '#6495ed', '#7b68ee'],
+              titleTextStyle: {
+                fontSize: 18,  // 設定標題字體大小
+                bold: true     // 設定標題為粗體
+              }
             };
             
             const filesChart = new google.visualization.BarChart(document.getElementById('filesChart'));
