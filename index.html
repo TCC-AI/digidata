@@ -732,27 +732,25 @@
         });
       }
 
-      // 載入檔案
-      function loadFiles() {
-        const folderId = document.getElementById('folderSelect').value;
-        if (!folderId) return;
+     function loadFiles() {
+  const folderId = document.getElementById('folderSelect').value;
+  if (!folderId) return;
         
-        const keyword = document.getElementById('searchInput').value;
-        
-        callGAS('getFiles', { folderId, keyword })
+  const keyword = document.getElementById('searchInput').value;
+  const category = document.getElementById('typeSelect').value;  // ← 新增這行
+
+  callGAS('getFiles', { folderId, keyword })
     .then(data => {
       if (data.success) {
         let files = data.result; // 從後端撈回來的檔案陣列
 
-        // ★★ 加入我們的「類別」過濾邏輯 ★★
+        // ★★ 根據類別過濾 ★★
         if (category === '辦法') {
-          // 過濾「檔名包含『辦法』」的檔案
           files = files.filter(file => file.name.includes('辦法'));
         } else if (category === '其他文件') {
-          // 過濾「檔名不含『辦法』」的檔案
           files = files.filter(file => !file.name.includes('辦法'));
         }
-        // 如果是 "all" (全部文件) 就不用過濾
+        // 如果是 "all"，不做任何過濾
 
         populateFileDropdown(files);
       } else {
@@ -761,6 +759,7 @@
     })
     .catch(err => console.error("Fetch error:", err));
 }
+
 
       // 填充檔案下拉選單
       function populateFileDropdown(files) {
