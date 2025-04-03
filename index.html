@@ -538,7 +538,16 @@
           <option value="">請選擇...</option>
         </select>
       </div>
-      
+      <!-- 請選擇類別 -->
+      <div class="form-group">
+        <label for="typeSelect">請選擇類別</label>
+        <select id="typeSelect" onchange="loadFiles()">
+          <option value="all" selected>全部文件</option>
+          <option value="辦法">辦法</option>
+          <option value="其他文件">其他文件</option>
+        </select>
+      </div>
+
       <div class="form-group">
         <label for="searchInput">檔案搜尋</label>
         <input type="text" id="searchInput" placeholder="請輸入關鍵字..." oninput="loadFiles()">
@@ -737,8 +746,21 @@
               populateFileDropdown(data.result);
             } else {
               console.error("Error:", data.error);
-            }
-          })
+           // ★★ 加入我們的「類別」過濾邏輯 ★★
+        if (category === '辦法') {
+          // 過濾「檔名包含『辦法』」的檔案
+          files = files.filter(file => file.name.includes('辦法'));
+        } else if (category === '其他文件') {
+          // 過濾「檔名不含『辦法』」的檔案
+          files = files.filter(file => !file.name.includes('辦法'));
+        }
+        // 如果是 "all" (全部文件) 就不用過濾
+
+        populateFileDropdown(files);
+      } else {
+        console.error("Error:", data.error);
+      }
+    })
           .catch(err => console.error("Fetch error:", err));
       }
 
