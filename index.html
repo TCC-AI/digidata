@@ -940,6 +940,12 @@
               title: '【部門熱度】查詢統計',
               pieHole: 0.4,
               legend: { position: 'bottom' }
+              titleTextStyle: {
+              fontSize: 20,     // 標題字體大小
+              bold: true,      // 粗體
+              color: '#054496' // 標題顏色
+              alignment: 'center'    // 對齊方式
+        }
             };
             const vendorsChart = new google.visualization.PieChart(document.getElementById('vendorsChart'));
             vendorsChart.draw(vendorsData, vendorsOptions);
@@ -957,6 +963,12 @@
             const filesOptions = {
               title: '【檔案熱度】查詢統計',
               legend: { position: 'bottom' }
+              titleTextStyle: {
+              fontSize: 20,     // 標題字體大小
+              bold: true,      // 粗體
+              color: '#054496' // 標題顏色
+              alignment: 'center'    // 對齊方式
+        }
             };
             const filesChart = new google.visualization.BarChart(document.getElementById('filesChart'));
             filesChart.draw(filesData, filesOptions);
