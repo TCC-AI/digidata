@@ -236,6 +236,11 @@
         flex-direction: column;
         position: relative;
       }
+      /* 調整第一個表單組的上邊距，使其位於超級連結按鈕下方 */
+.first-form-group {
+  margin-top: 60px; /* 根據超級連結按鈕的位置調整這個值 */
+}
+
       label {
         margin-bottom: 5px;
         font-weight: bold;
@@ -582,6 +587,7 @@
       #linksTable th {
         background-color: #f2f2f2;
       }
+      
 
       /* 
         ----- Media Queries -----
@@ -673,12 +679,13 @@
       <!-- 只有s3看到的按鈕 -->
       <button id="linksButton" onclick="showLinks()">超級連結</button>
       
-      <div class="form-group">
+            <div class="form-group first-form-group">
         <label for="folderSelect">請選擇部門</label>
         <select id="folderSelect" onchange="loadFiles()">
           <option value="">請選擇...</option>
         </select>
       </div>
+
       <div class="form-group">
         <label for="typeSelect">請選擇文件類別</label>
         <select id="typeSelect" onchange="loadFiles()">
