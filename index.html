@@ -596,7 +596,9 @@
                 currentUser = {
                   username: localStorage.getItem('username'),
                   name: localStorage.getItem('name'),
-                  role: localStorage.getItem('role')
+                  role: localStorage.getItem('role'),
+                  // ★ 注意：在這裡可以一併拿 permission (若前端有存)
+                  permission: localStorage.getItem('permissionLevel') || ''
                 };
                 updateUserInfo();
                 populateFolderDropdown(data.result);
@@ -636,7 +638,12 @@
               localStorage.setItem('name', data.result.name);
               localStorage.setItem('role', data.result.role);
 
-              // ★ 拿到 rowIndex (登入紀錄) 存在 localStorage
+              // ★ 存下後端回傳的權限
+              if (data.result.permissionLevel) {
+                localStorage.setItem('permissionLevel', data.result.permissionLevel);
+              }
+
+              // 如果後端有回傳 loginRowIndex（做登入紀錄），可儲存起來
               if (data.result.loginRowIndex) {
                 localStorage.setItem('loginRowIndex', data.result.loginRowIndex);
               }
@@ -644,7 +651,8 @@
               currentUser = {
                 username: data.result.username,
                 name: data.result.name,
-                role: data.result.role
+                role: data.result.role,
+                permission: data.result.permissionLevel || ''
               };
               
               document.getElementById('loginScreen').style.display = 'none';
@@ -678,7 +686,6 @@
       function logoutUser() {
         const loginRowIndex = localStorage.getItem('loginRowIndex');
         if (loginRowIndex) {
-          // ★呼叫 logLogout，把該筆登入紀錄更新登出時間
           callGAS('logLogout', { rowIndex: loginRowIndex })
             .then(data => {
               console.log("Logout time recorded:", data);
@@ -689,7 +696,6 @@
               cleanupAndShowLogin();
             });
         } else {
-          // 沒 rowIndex 就直接登出
           cleanupAndShowLogin();
         }
       }
@@ -701,6 +707,7 @@
         localStorage.removeItem('name');
         localStorage.removeItem('role');
         localStorage.removeItem('loginRowIndex');
+        localStorage.removeItem('permissionLevel');
 
         currentUser = null;
         document.getElementById('loginScreen').style.display = 'flex';
@@ -766,7 +773,7 @@
       }
 
       /*************************************************
-       * 8) 載入檔案 (含類別篩選)
+       * 8) 載入檔案 (含類別篩選 + 分級篩選)
        *************************************************/
       function loadFiles() {
         const folderId = document.getElementById('folderSelect').value;
@@ -780,6 +787,10 @@
             if (data.success) {
               let files = data.result;
 
+              // 先做「分級」篩選
+              files = filterByPermission(files);
+
+              // 再做「類別」篩選 (ex: 辦法計畫 / 其他文件)
               if (category === '辦法') {
                 const keywords = ['辦法', '計畫', '細則'];
                 files = files.filter(file => {
@@ -800,6 +811,29 @@
             }
           })
           .catch(err => console.error("Fetch error:", err));
+      }
+
+      /*************************************************
+       * ★ 分級篩選邏輯
+       *************************************************/
+      function filterByPermission(files) {
+        // currentUser.permission 可能是 s1, s2, s3, 或空字串
+        const p = currentUser ? currentUser.permission : "";
+
+        // s3: 顯示所有檔案 (不篩選)
+        if (p === 's3') {
+          return files;
+        }
+        // s2: 不能看到檔名中含有 "s3"
+        else if (p === 's2') {
+          return files.filter(file => !file.name.toLowerCase().includes('s3'));
+        }
+        // s1: 只顯示檔名中含有 "s1"
+        else if (p === 's1') {
+          return files.filter(file => file.name.toLowerCase().includes('s1'));
+        }
+        // 如果後端沒拿到 permissionLevel，就先不做任何篩選
+        return files;
       }
 
       /*************************************************
