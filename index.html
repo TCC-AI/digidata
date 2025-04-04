@@ -279,7 +279,7 @@
       #statsButton {
         position: absolute;
         top: 250px; right: 10px;
-        padding: 8px 10px;
+        padding: 6px 6px;
         background: linear-gradient(45deg, #20b2aa, #3cb371);
         color: white; border: none; border-radius: 50px;
         cursor: pointer;
@@ -288,7 +288,7 @@
         font-size: 0.9em; font-weight: bold;
         display: flex; align-items: center; justify-content: center;
         min-height: 35px;
-        min-width: 87px;  /* 增加最小寬度 */
+        min-width: 80px;  /* 增加最小寬度 */
       }
       #statsButton:hover {
         background: linear-gradient(45deg, #3cb371, #20b2aa);
@@ -298,7 +298,7 @@
       #statsButton::before {
         content: "📊";
         margin-right: 8px;
-        font-size: 0.9em;
+        font-size: 1em;
         display: inline-block;
         transition: all 0.3s ease;
         vertical-align: middle;  // 垂直對齊
@@ -452,7 +452,12 @@
       }
       @media (max-width: 820px) {
         .container { padding: 15px; }
-        #statsButton { top: 245px; }
+        #statsButton { 
+        font-size: 1em;     /* 手機版的文字大小 */
+        min-height: 35px;   /* 手機版的最小高度 */
+        min-width: 80px;    /* 手機版的最小寬度 */
+        padding: 8px 12px;  /* 手機版的內部間距 */
+        top: 245px; }
         #userInfo { top: 50px; right: 10px;font-size: 0.8em; }
       }
 
