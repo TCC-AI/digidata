@@ -301,74 +301,89 @@
         box-shadow: 0 5px 10px rgba(33, 147, 176, 0.3);
       }
 
-      /* Stats Button */
-      #statsButton {
-        position: absolute;
-        top: 250px; left: 10px;
-        padding: 6px 6px;
-        background: linear-gradient(45deg, #20b2aa, #3cb371);
-        color: white; border: none; border-radius: 30px;
-        cursor: pointer;
-        box-shadow: 0 6px 15px rgba(32, 178, 170, 0.4), 0 3px 8px rgba(0,0,0,0.15);
-        transition: all 0.3s ease;
-        font-size: 1.3em; font-weight: bold;
-        display: flex; align-items: center; justify-content: center;
-        min-height: 35px;
-        min-width: 80px;
-      }
-      #statsButton:hover {
-        background: linear-gradient(45deg, #3cb371, #20b2aa);
-        box-shadow: 0 8px 20px rgba(32, 178, 170, 0.5), 0 5px 12px rgba(0,0,0,0.2);
-        transform: translateY(-2px);
-      }
-      #statsButton::before {
-        content: "📊";
-        margin-right: 8px;
-        font-size: 0.7em;
-        display: inline-block;
-        transition: all 0.3s ease;
-        position: relative;
-        top: -1px;
-      }
-      #statsButton:hover::before {
-        transform: rotate(360deg);
-        font-size: 1em;
-      }
+     /* Stats Button */
+#statsButton {
+  position: absolute;
+  top: 250px; 
+  left: 10px;
+  padding: 6px 6px;
+  background: linear-gradient(45deg, #20b2aa, #3cb371);
+  color: white; 
+  border: none; 
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(32, 178, 170, 0.4), 0 3px 8px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  font-size: 1.3em; 
+  font-weight: bold;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  min-height: 35px;
+  min-width: 80px;
+}
+#statsButton:hover {
+  background: linear-gradient(45deg, #3cb371, #20b2aa);
+  box-shadow: 0 8px 20px rgba(32, 178, 170, 0.5), 0 5px 12px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+#statsButton::before {
+  content: "📊";
+  margin-right: 8px;
+  font-size: 0.7em;
+  display: inline-block;
+  transition: all 0.3s ease;
+  position: relative;
+  top: -1px;
+}
+#statsButton:hover::before {
+  transform: rotate(360deg);
+  font-size: 1em;
+}
 
-      /* NEW: 超級連結按鈕 (s3限定) */
-      #linksButton {
-        position: absolute;
-        top: 250px;
-        left: 110px;
-        padding: 6px 6px;
-        background: linear-gradient(45deg, #e0a204, #fad270);
-        color: #001a26; border: none; border-radius: 30px;
-        cursor: pointer;
-        box-shadow: 0 6px 15px rgba(255, 182, 72, 0.4), 0 3px 8px rgba(0,0,0,0.15);
-        transition: all 0.3s ease;
-        font-size: 1.5em; font-weight: bold;
-        display: none;  /* 預設隱藏，s3才顯示 */
-        align-items: center; justify-content: center;
-        min-height: 35px;
-        min-width: 60px;
-      }
-      #linksButton:hover {
-        background: linear-gradient(45deg, #ffc947, #ffb700);
-        box-shadow: 0 8px 20px rgba(255, 182, 72, 0.5), 0 5px 12px rgba(0,0,0,0.2);
-        transform: translateY(-2px);
-      }
-      #linksButton:active {
-        background: linear-gradient(45deg, #bd6802, #ffb700);
-      }
-      #linksButton::before {
-        content: "🔗";
-        margin-right: 8px;
-        font-size: 1em;
-        display: inline-block;
-        transition: all 0.3s ease;
-        position: relative;
-        top: -1px;
-      }
+/* NEW: 超級連結按鈕 (s3限定) */
+#linksButton {
+  position: absolute;
+  top: 250px;
+  left: 110px;
+  padding: 6px 6px;
+  background: linear-gradient(45deg, #e0a204, #fad270);
+  color: #001a26; 
+  border: none; 
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(255, 182, 72, 0.4), 0 3px 8px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  font-size: 1.3em; 
+  font-weight: bold;
+  display: none;  /* 預設隱藏，s3才顯示 */
+  align-items: center; 
+  justify-content: center;
+  min-height: 35px;
+  min-width: 80px; /* 調整為和statsButton一致 */
+}
+#linksButton:hover {
+  background: linear-gradient(45deg, #ffc947, #ffb700);
+  box-shadow: 0 8px 20px rgba(255, 182, 72, 0.5), 0 5px 12px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+#linksButton:active {
+  background: linear-gradient(45deg, #bd6802, #ffb700);
+}
+#linksButton::before {
+  content: "🔗";
+  margin-right: 8px;
+  font-size: 0.7em; /* 調整為和statsButton一致 */
+  display: inline-block;
+  transition: all 0.3s ease;
+  position: relative;
+  top: -1px;
+}
+#linksButton:hover::before {
+  transform: rotate(360deg); /* 添加和statsButton一致的旋轉效果 */
+  font-size: 1em;
+}
+
 
       /* Logout Button */
       #logoutButton {
