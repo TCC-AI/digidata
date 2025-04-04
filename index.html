@@ -62,22 +62,21 @@
         text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         opacity: 0;
         transform: scale(0);
-        animation: letterExplosion 1s forwards, moveRandom 30s infinite alternate ease-in-out, sizeChange 8s infinite alternate ease-in-out;
       }
       
       .letter-t {
         color: #00bfff;
-        animation-delay: 0s, 1s, 1s;
+        animation: letterExplosion 1s forwards, moveRandom-T 30s infinite alternate ease-in-out, sizeChange-T 8s infinite alternate ease-in-out, colorChange-1 28s infinite;
       }
       
       .letter-c1 {
         color: #00ff7f;
-        animation-delay: 0.2s, 1.2s, 1.3s;
+        animation: letterExplosion 1s 0.2s forwards, moveRandom-C1 32s infinite alternate ease-in-out, sizeChange-C1 9s infinite alternate ease-in-out, colorChange-2 29s infinite;
       }
       
       .letter-c2 {
         color: #f09707;
-        animation-delay: 0.4s, 1.4s, 1.5s;
+        animation: letterExplosion 1s 0.4s forwards, moveRandom-C2 34s infinite alternate ease-in-out, sizeChange-C2 10s infinite alternate ease-in-out, colorChange-3 30s infinite;
       }
       
       @keyframes letterExplosion {
@@ -95,8 +94,9 @@
         }
       }
       
-      @keyframes moveRandom {
-        0%, 100% { top: 10%; left: 10%; }
+      /* T字母的獨立軌跡 */
+      @keyframes moveRandom-T {
+        0% { top: 10%; left: 10%; }
         10% { top: 40%; left: 80%; }
         20% { top: 80%; left: 15%; }
         30% { top: 30%; left: 60%; }
@@ -106,14 +106,59 @@
         70% { top: 50%; left: 70%; }
         80% { top: 15%; left: 40%; }
         90% { top: 90%; left: 90%; }
+        100% { top: 50%; left: 50%; }
       }
       
-      @keyframes sizeChange {
+      /* C1字母的獨立軌跡 */
+      @keyframes moveRandom-C1 {
+        0% { top: 90%; left: 20%; }
+        10% { top: 20%; left: 40%; }
+        20% { top: 50%; left: 85%; }
+        30% { top: 80%; left: 10%; }
+        40% { top: 40%; left: 60%; }
+        50% { top: 60%; left: 30%; }
+        60% { top: 30%; left: 70%; }
+        70% { top: 70%; left: 50%; }
+        80% { top: 25%; left: 90%; }
+        90% { top: 55%; left: 15%; }
+        100% { top: 30%; left: 30%; }
+      }
+      
+      /* C2字母的獨立軌跡 */
+      @keyframes moveRandom-C2 {
+        0% { top: 50%; left: 50%; }
+        10% { top: 70%; left: 20%; }
+        20% { top: 30%; left: 80%; }
+        30% { top: 60%; left: 40%; }
+        40% { top: 20%; left: 70%; }
+        50% { top: 80%; left: 30%; }
+        60% { top: 10%; left: 60%; }
+        70% { top: 90%; left: 10%; }
+        80% { top: 40%; left: 90%; }
+        90% { top: 15%; left: 25%; }
+        100% { top: 75%; left: 75%; }
+      }
+      
+      /* 各字母獨立的尺寸變化 */
+      @keyframes sizeChange-T {
         0%, 100% { font-size: 40px; }
         20% { font-size: 60px; }
         40% { font-size: 30px; }
         60% { font-size: 70px; }
         80% { font-size: 50px; }
+      }
+      
+      @keyframes sizeChange-C1 {
+        0%, 100% { font-size: 50px; }
+        25% { font-size: 35px; }
+        50% { font-size: 65px; }
+        75% { font-size: 45px; }
+      }
+      
+      @keyframes sizeChange-C2 {
+        0%, 100% { font-size: 45px; }
+        33% { font-size: 70px; }
+        66% { font-size: 35px; }
       }
 
       @keyframes colorChange-1 {
@@ -621,7 +666,7 @@
         createTCCLetters();
       };
 
-      /*************************************************
+           /*************************************************
        * 3) 登入函數
        *************************************************/
       function loginUser() {
@@ -686,7 +731,7 @@
           });
       }
 
-            /*************************************************
+      /*************************************************
        * 4) 登出函數
        *************************************************/
       function logoutUser() {
@@ -995,18 +1040,9 @@
           letterElement.className = `letter ${letterInfo.class}`;
           letterElement.textContent = letterInfo.text;
           
-          // 為每個字母設置不同的初始位置
-          letterElement.style.left = `${Math.random() * 80 + 10}%`;
-          letterElement.style.top = `${Math.random() * 80 + 10}%`;
-          
-          // 添加顏色變化動畫
-          if (letterInfo.class === 'letter-t') {
-            letterElement.style.animation += ', colorChange-1 28s infinite';
-          } else if (letterInfo.class === 'letter-c1') {
-            letterElement.style.animation += ', colorChange-2 29s infinite';
-          } else {
-            letterElement.style.animation += ', colorChange-3 30s infinite';
-          }
+          // 初始位置設置在畫面中心
+          letterElement.style.left = '50%';
+          letterElement.style.top = '50%';
           
           document.body.appendChild(letterElement);
         });
