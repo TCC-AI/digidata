@@ -578,9 +578,9 @@
 
     <script>
       /*************************************************
-       * 1) Web App URL (佔位符 - 請自行更改)
+       * 1) Web App URL (可改成你的 Web App 部署網址)
        *************************************************/
-      const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyFC8LO3iwBVPf5u1CqFl0VU-Y_AAlZxN8Bro-OSwzveq9Vm9umkerH3II0IsVMJb12WQ/exec";
+      const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyDEtxR5UPtiV4HsmujuUAolWBF-ozCD1epw6hNw1GToV1f66JKXi0HBSjuoSo3p9v7EA/exec";
       let currentUser = null;
       
       /*************************************************
@@ -636,8 +636,10 @@
               localStorage.setItem('name', data.result.name);
               localStorage.setItem('role', data.result.role);
 
-              // 如果後端有回傳 loginRowIndex（做登入紀錄），可儲存起來
-              // localStorage.setItem('loginRowIndex', data.result.loginRowIndex || '');
+              // ★ 拿到 rowIndex (登入紀錄) 存在 localStorage
+              if (data.result.loginRowIndex) {
+                localStorage.setItem('loginRowIndex', data.result.loginRowIndex);
+              }
               
               currentUser = {
                 username: data.result.username,
@@ -674,23 +676,22 @@
        * 4) 登出函數
        *************************************************/
       function logoutUser() {
-        // 如果要更新登出時間，可在此呼叫 doActionLogLogout
-        // const loginRowIndex = localStorage.getItem('loginRowIndex');
-        // if (loginRowIndex) {
-        //   callGAS('logLogout', { rowIndex: loginRowIndex })
-        //     .then(data => {
-        //       console.log("Logout time recorded:", data);
-        //       cleanupAndShowLogin();
-        //     })
-        //     .catch(err => {
-        //       console.error("Logout error:", err);
-        //       cleanupAndShowLogin();
-        //     });
-        // } else {
-        //   cleanupAndShowLogin();
-        // }
-
-        cleanupAndShowLogin();
+        const loginRowIndex = localStorage.getItem('loginRowIndex');
+        if (loginRowIndex) {
+          // ★呼叫 logLogout，把該筆登入紀錄更新登出時間
+          callGAS('logLogout', { rowIndex: loginRowIndex })
+            .then(data => {
+              console.log("Logout time recorded:", data);
+              cleanupAndShowLogin();
+            })
+            .catch(err => {
+              console.error("Logout error:", err);
+              cleanupAndShowLogin();
+            });
+        } else {
+          // 沒 rowIndex 就直接登出
+          cleanupAndShowLogin();
+        }
       }
 
       // 把清除 localStorage & 顯示登入畫面，包成一個函數
@@ -699,7 +700,7 @@
         localStorage.removeItem('username');
         localStorage.removeItem('name');
         localStorage.removeItem('role');
-        // localStorage.removeItem('loginRowIndex');
+        localStorage.removeItem('loginRowIndex');
 
         currentUser = null;
         document.getElementById('loginScreen').style.display = 'flex';
