@@ -66,17 +66,17 @@
       
       .letter-t {
         color: #00bfff;
-        animation: letterExplosion 1s forwards, moveRandom-T 30s infinite alternate ease-in-out, sizeChange-T 8s infinite alternate ease-in-out, colorChange-1 28s infinite;
+        animation: letterExplosion 1s forwards, moveRandom-T 90s infinite alternate ease-in-out, sizeChange-T 24s infinite alternate ease-in-out, colorChange-1 84s infinite;
       }
       
       .letter-c1 {
         color: #00ff7f;
-        animation: letterExplosion 1s 0.2s forwards, moveRandom-C1 32s infinite alternate ease-in-out, sizeChange-C1 9s infinite alternate ease-in-out, colorChange-2 29s infinite;
+        animation: letterExplosion 1s 0.2s forwards, moveRandom-C1 96s infinite alternate ease-in-out, sizeChange-C1 27s infinite alternate ease-in-out, colorChange-2 87s infinite;
       }
       
       .letter-c2 {
         color: #f09707;
-        animation: letterExplosion 1s 0.4s forwards, moveRandom-C2 34s infinite alternate ease-in-out, sizeChange-C2 10s infinite alternate ease-in-out, colorChange-3 30s infinite;
+        animation: letterExplosion 1s 0.4s forwards, moveRandom-C2 102s infinite alternate ease-in-out, sizeChange-C2 30s infinite alternate ease-in-out, colorChange-3 90s infinite;
       }
       
       @keyframes letterExplosion {
@@ -94,7 +94,7 @@
         }
       }
       
-      /* T字母的獨立軌跡 */
+      /* T字母的獨立軌跡 - 速度降為原來的1/3 */
       @keyframes moveRandom-T {
         0% { top: 10%; left: 10%; }
         10% { top: 40%; left: 80%; }
@@ -109,7 +109,7 @@
         100% { top: 50%; left: 50%; }
       }
       
-      /* C1字母的獨立軌跡 */
+      /* C1字母的獨立軌跡 - 速度降為原來的1/3 */
       @keyframes moveRandom-C1 {
         0% { top: 90%; left: 20%; }
         10% { top: 20%; left: 40%; }
@@ -124,7 +124,7 @@
         100% { top: 30%; left: 30%; }
       }
       
-      /* C2字母的獨立軌跡 */
+      /* C2字母的獨立軌跡 - 速度降為原來的1/3 */
       @keyframes moveRandom-C2 {
         0% { top: 50%; left: 50%; }
         10% { top: 70%; left: 20%; }
@@ -139,7 +139,7 @@
         100% { top: 75%; left: 75%; }
       }
       
-      /* 各字母獨立的尺寸變化 */
+      /* 各字母獨立的尺寸變化 - 速度降為原來的1/3 */
       @keyframes sizeChange-T {
         0%, 100% { font-size: 40px; }
         20% { font-size: 60px; }
@@ -161,6 +161,7 @@
         66% { font-size: 35px; }
       }
 
+      /* 顏色變化動畫 - 速度降為原來的1/3 */
       @keyframes colorChange-1 {
         0%, 100% { color: #00bfff; }
         33% { color: #00ff7f; }
@@ -666,7 +667,7 @@
         createTCCLetters();
       };
 
-           /*************************************************
+            /*************************************************
        * 3) 登入函數
        *************************************************/
       function loginUser() {
