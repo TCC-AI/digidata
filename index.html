@@ -327,6 +327,10 @@
       #statsButton:hover::before {
         transform: rotate(360deg);
       }
+      /* 按下時變色 */
+      #statsButton:active {
+        background: linear-gradient(45deg, #3cb371, #00a68a);
+      }
 
       /* NEW: 超級連結按鈕 (s3限定) */
       #linksButton {
@@ -340,7 +344,7 @@
         box-shadow: 0 6px 15px rgba(255, 182, 72, 0.4), 0 3px 8px rgba(0,0,0,0.15);
         transition: all 0.3s ease;
         font-size: 0.9em; font-weight: bold;
-        display: none;  /* 預設隱藏，s3才顯示 */
+        display: none;  
         align-items: center; justify-content: center;
         min-height: 35px;
         min-width: 80px;
@@ -358,6 +362,10 @@
         transition: all 0.3s ease;
         position: relative;
         top: -1px;
+      }
+      /* 按下時變色 */
+      #linksButton:active {
+        background: linear-gradient(45deg, #ffb21d, #ffce60);
       }
 
       /* Logout Button */
@@ -385,6 +393,10 @@
         font-size: 0.8em;
         display: inline-block;
         transition: all 0.3s ease;
+      }
+      /* 按下時變色 */
+      #logoutButton:active {
+        background: linear-gradient(45deg, #ff5b5b, #ff7e7e);
       }
 
       /* User Info */
@@ -533,7 +545,7 @@
       #linksModal {
         display: none;
         position: fixed;
-        z-index: 1001;
+        z-index: 1001; 
         left: 0; top: 0;
         width: 100%; height: 100%;
         background-color: rgba(0,0,0,0.7);
@@ -554,7 +566,6 @@
         width: 100%;
         border-collapse: collapse;
         margin-top: 10px;
-        
       }
       #linksTable th, #linksTable td {
         border: 1px solid #ccc;
@@ -566,14 +577,11 @@
       }
 
       /* 
-        ----- Media Queries -----
-        這裡有三段: 
-        1) @media (max-width: 820px)
-        2) @media only screen and (max-width: 820px) and (-webkit-min-device-pixel-ratio: 2)
-        3) 再一個 @media (max-width: 820px) 
-        全都保留 
-      */
-
+         ----- Media Queries ----- 
+         (1) @media (max-width: 820px)
+         (2) @media only screen and (max-width: 820px) and (-webkit-min-device-pixel-ratio: 2)
+         (3) @media (max-width: 820px) 
+       */
       @media (max-width: 820px) {
         .container { padding: 30px; }
         h2 { font-size: 2.2em; }
@@ -601,23 +609,7 @@
           top: 240px; 
         }
         #userInfo { top: 50px; right: 10px; font-size: 0.8em; }
-        /* 在這裡加入 linksButton 的手機版設定 */
-        #linksButton {
-        font-size: 0.7em;
-        min-height: 30px;
-        min-width: 45px;
-        padding: 8px 12px;
-        top: 240px;
-        right: 110px;
-    }
       }
-      @media (max-width: 820px) {
-      #linksTable th, #linksTable td {
-      font-size: 14px;  /* 手機版字體大小 */
-      }
-}
-
-
     </style>
   </head>
 
@@ -651,8 +643,9 @@
         歡迎, <span id="userName"></span>
         <div id="userRole"></div>
       </div>
+
       <button id="statsButton" onclick="showStats()">使用統計</button>
-      <!-- 只有s3看到的按鈕 -->
+      <!-- NEW: 只有 s3 才顯示 -->
       <button id="linksButton" onclick="showLinks()">超級連結</button>
       
       <div class="form-group">
@@ -661,6 +654,7 @@
           <option value="">請選擇...</option>
         </select>
       </div>
+
       <div class="form-group">
         <label for="typeSelect">請選擇類別</label>
         <select id="typeSelect" onchange="loadFiles()">
@@ -681,6 +675,7 @@
           <option value="">請選擇...</option>
         </select>
       </div>
+
       <h6 style="text-align: center; color: #808080;">Designed by T.C.C.管理本部</h6>
       <div id="result"></div>
     </div>
@@ -695,8 +690,8 @@
       </div>
     </div>
 
-    <!-- 超級連結 Modal (只給s3用) -->
-    <div id="linksModal">
+    <!-- 超級連結 Modal (只給 s3) -->
+    <div id="linksModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeLinksModal()">&times;</span>
         <h2>重要連結</h2>
@@ -708,11 +703,11 @@
       /*************************************************
        * 1) Web App URL
        *************************************************/
-      const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwChNGmIFmSz-8NRrHAH7ite5G5KUtAF6hH4AbHcPxgKMAFKHmOuNc_I1s0PQFBucieUg/exec";
+      const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwsKtr4q19zAwP5U_eEQTQN9rARVno-pmdTtRXB6K7cPhuM-_50vbVQcDYYgCStj1pRLA/exec";
       let currentUser = null;
       
       /*************************************************
-       * 2) 檢查是否已登入 + 字母特效
+       * 2) 檢查是否已登入 + 建立字母
        *************************************************/
       window.onload = function() {
         const token = localStorage.getItem('authToken');
@@ -735,13 +730,12 @@
               }
             })
             .catch(err => {
-              console.error("Fetch error:", err);
               localStorage.removeItem('authToken');
               document.getElementById('loginScreen').style.display = 'flex';
             });
         }
         
-        createTCCLetters(); // 建立 T, C, C 字母特效
+        createTCCLetters();
       };
 
       /*************************************************
@@ -786,18 +780,14 @@
                 .then(data => {
                   if (data.success) {
                     populateFolderDropdown(data.result);
-                  } else {
-                    console.error("Error:", data.error);
                   }
-                })
-                .catch(err => console.error("Fetch error:", err));
+                });
             } else {
               loginError.textContent = data.error || '登入失敗';
               loginError.style.display = 'block';
             }
           })
           .catch(err => {
-            console.error('登入錯誤:', err);
             loginError.textContent = '登入發生錯誤，請稍後再試';
             loginError.style.display = 'block';
           });
@@ -810,10 +800,7 @@
         const loginRowIndex = localStorage.getItem('loginRowIndex');
         if (loginRowIndex) {
           callGAS('logLogout', { rowIndex: loginRowIndex })
-            .then(data => {
-              cleanupAndShowLogin();
-            })
-            .catch(err => {
+            .finally(() => {
               cleanupAndShowLogin();
             });
         } else {
@@ -836,13 +823,13 @@
       }
 
       /*************************************************
-       * 5) 更新用戶信息顯示 + s3按鈕顯示
+       * 5) 更新用戶信息 + s3按鈕顯示
        *************************************************/
       function updateUserInfo() {
         if (currentUser) {
           document.getElementById('userName').textContent = currentUser.name || currentUser.username;
           document.getElementById('userRole').textContent = currentUser.role || '';
-          
+
           const linksButton = document.getElementById('linksButton');
           if (currentUser.permission === 's3') {
             linksButton.style.display = 'block';
@@ -898,7 +885,7 @@
       }
 
       /*************************************************
-       * 8) 載入檔案 (含類別篩選 + 分級篩選)
+       * 8) 載入檔案 (分級+類別篩選)
        *************************************************/
       function loadFiles() {
         const folderId = document.getElementById('folderSelect').value;
@@ -926,13 +913,9 @@
                   return !keywords.some(kw => nameLower.includes(kw));
                 });
               }
-
               populateFileDropdown(files);
-            } else {
-              console.error("Error:", data.error);
             }
-          })
-          .catch(err => console.error("Fetch error:", err));
+          });
       }
 
       /*************************************************
@@ -989,10 +972,8 @@
                 username: currentUser ? currentUser.name || currentUser.username : ''
               });
             }
-          })
-          .catch(err => console.error("Fetch error:", err));
+          });
       }
-
       function displayFile(fileInfo) {
         const resultDiv = document.getElementById('result');
         if (fileInfo.mimeType === 'application/pdf' || fileInfo.mimeType.includes('google-apps')) {
@@ -1012,14 +993,11 @@
               document.getElementById('statsModal').style.display = 'block';
               drawCharts(data.result);
             }
-          })
-          .catch(err => console.error("Fetch error:", err));
+          });
       }
-
       function closeModal() {
         document.getElementById('statsModal').style.display = 'none';
       }
-
       function drawCharts(statData) {
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(() => {
@@ -1050,7 +1028,7 @@
             };
             const filesChart = new google.visualization.BarChart(document.getElementById('filesChart'));
             filesChart.draw(filesData, filesOptions);
-          } else {
+                    } else {
             document.getElementById('filesChart').innerHTML = '<p>暫無檔案查詢數據</p>';
           }
         });
@@ -1083,6 +1061,7 @@
           const el = document.createElement('div');
           el.classList.add('letter', ld.className);
           el.innerText = ld.text;
+          // 初始位置，置中
           el.style.left = '50%';
           el.style.top = '50%';
           document.body.appendChild(el);
@@ -1090,13 +1069,13 @@
       }
 
       /*************************************************
-       * ★ NEW: 顯示「重要連結」(只有 s3)
+       * 15) 顯示「重要連結」(只給 s3)
        *************************************************/
       function showLinks() {
         callGAS('getImportantLinks')
           .then(data => {
             if (data.success) {
-              const links = data.result; 
+              const links = data.result;
               renderLinksTable(links);
               document.getElementById('linksModal').style.display = 'block';
             } else {
@@ -1105,9 +1084,11 @@
           })
           .catch(err => console.error("Fetch error:", err));
       }
+
       function closeLinksModal() {
         document.getElementById('linksModal').style.display = 'none';
       }
+
       function renderLinksTable(links) {
         const container = document.getElementById('linksContainer');
         if (!links || links.length === 0) {
@@ -1128,3 +1109,4 @@
     </script>
   </body>
 </html>
+
