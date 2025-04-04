@@ -350,6 +350,9 @@
         box-shadow: 0 8px 20px rgba(255, 182, 72, 0.5), 0 5px 12px rgba(0,0,0,0.2);
         transform: translateY(-2px);
       }
+      #linksButton:active {
+        background: linear-gradient(45deg, #ff8c00, #ffb700);
+      }
       #linksButton::before {
         content: "🔗";
         margin-right: 8px;
@@ -379,12 +382,26 @@
         box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5), 0 5px 12px rgba(0,0,0,0.2);
         transform: translateY(-2px);
       }
+      #logoutButton:active {
+        background: linear-gradient(45deg, #ff3333, #ff6b6b);
+      }
       #logoutButton::before {
         content: "🚪";
         margin-right: 8px;
         font-size: 0.8em;
         display: inline-block;
         transition: all 0.3s ease;
+      }
+
+      /* 按鈕點擊效果 */
+      .button-clicked {
+        animation: buttonClick 0.5s;
+      }
+      
+      @keyframes buttonClick {
+        0% { transform: scale(1); }
+        50% { transform: scale(0.95); }
+        100% { transform: scale(1); }
       }
 
       /* User Info */
@@ -675,7 +692,7 @@
         <input type="text" id="searchInput" placeholder="請輸入關鍵字..." oninput="loadFiles()">
       </div>
       
-      <div class="form-group">
+            <div class="form-group">
         <label for="fileSelect">請選擇檔案</label>
         <select id="fileSelect" onchange="showFile()">
           <option value="">請選擇...</option>
@@ -807,19 +824,30 @@
        * 4) 登出函數
        *************************************************/
       function logoutUser() {
-        const loginRowIndex = localStorage.getItem('loginRowIndex');
-        if (loginRowIndex) {
-          callGAS('logLogout', { rowIndex: loginRowIndex })
-            .then(data => {
-              cleanupAndShowLogin();
-            })
-            .catch(err => {
-              cleanupAndShowLogin();
-            });
-        } else {
-          cleanupAndShowLogin();
-        }
+        // 添加按鈕點擊效果
+        const logoutBtn = document.getElementById('logoutButton');
+        logoutBtn.classList.add('button-clicked');
+        
+        // 更改按鈕顏色
+        logoutBtn.style.background = 'linear-gradient(45deg, #ff3333, #ff6b6b)';
+        
+        // 延遲執行登出操作，讓用戶看到按鈕變色效果
+        setTimeout(() => {
+          const loginRowIndex = localStorage.getItem('loginRowIndex');
+          if (loginRowIndex) {
+            callGAS('logLogout', { rowIndex: loginRowIndex })
+              .then(data => {
+                cleanupAndShowLogin();
+              })
+              .catch(err => {
+                cleanupAndShowLogin();
+              });
+          } else {
+            cleanupAndShowLogin();
+          }
+        }, 300);
       }
+      
       function cleanupAndShowLogin() {
         localStorage.removeItem('authToken');
         localStorage.removeItem('username');
@@ -833,6 +861,11 @@
         document.getElementById('username').value = '';
         document.getElementById('password').value = '';
         document.getElementById('loginError').style.display = 'none';
+        
+        // 重置登出按鈕顏色
+        const logoutBtn = document.getElementById('logoutButton');
+        logoutBtn.style.background = 'linear-gradient(45deg, #ff6b6b, #ff8e8e)';
+        logoutBtn.classList.remove('button-clicked');
       }
 
       /*************************************************
@@ -1093,21 +1126,54 @@
        * ★ NEW: 顯示「重要連結」(只有 s3)
        *************************************************/
       function showLinks() {
-        callGAS('getImportantLinks')
-          .then(data => {
-            if (data.success) {
-              const links = data.result; 
-              renderLinksTable(links);
-              document.getElementById('linksModal').style.display = 'block';
-            } else {
-              console.error("Error:", data.error);
-            }
-          })
-          .catch(err => console.error("Fetch error:", err));
+        // 添加按鈕點擊效果
+        const linksBtn = document.getElementById('linksButton');
+        linksBtn.classList.add('button-clicked');
+        
+        // 更改按鈕顏色
+        linksBtn.style.background = 'linear-gradient(45deg, #ff8c00, #ffb700)';
+        
+        // 延遲執行顯示連結操作，讓用戶看到按鈕變色效果
+        setTimeout(() => {
+          callGAS('getImportantLinks')
+            .then(data => {
+              if (data.success) {
+                const links = data.result; 
+                renderLinksTable(links);
+                document.getElementById('linksModal').style.display = 'block';
+                
+                // 顯示完成後恢復按鈕顏色
+                setTimeout(() => {
+                  linksBtn.style.background = 'linear-gradient(45deg, #ffb700, #ffc947)';
+                  linksBtn.classList.remove('button-clicked');
+                }, 300);
+              } else {
+                console.error("Error:", data.error);
+                
+                // 出錯時也恢復按鈕顏色
+                linksBtn.style.background = 'linear-gradient(45deg, #ffb700, #ffc947)';
+                linksBtn.classList.remove('button-clicked');
+              }
+            })
+            .catch(err => {
+              console.error("Fetch error:", err);
+              
+              // 出錯時也恢復按鈕顏色
+              linksBtn.style.background = 'linear-gradient(45deg, #ffb700, #ffc947)';
+              linksBtn.classList.remove('button-clicked');
+            });
+        }, 300);
       }
+      
       function closeLinksModal() {
         document.getElementById('linksModal').style.display = 'none';
+        
+        // 關閉modal時恢復按鈕顏色
+        const linksBtn = document.getElementById('linksButton');
+        linksBtn.style.background = 'linear-gradient(45deg, #ffb700, #ffc947)';
+        linksBtn.classList.remove('button-clicked');
       }
+      
       function renderLinksTable(links) {
         const container = document.getElementById('linksContainer');
         if (!links || links.length === 0) {
