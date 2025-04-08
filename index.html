@@ -206,13 +206,11 @@
         color: #054496;
         margin-bottom: 20px;
         font-size: 3em;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         position: relative;
         padding-bottom: 15px;
-        margin-top: 15px;
+        margin-top: 20px;
       }
-    
-      
       .logo-img {
         max-width: 200px;
         margin: 25px auto 0; 
@@ -904,7 +902,7 @@ a.download-link::before {
     <div id="aiModal">
       <div class="modal-content">
         <span class="close" onclick="closeAiModal()">&times;</span>
-        <h2>AI資搜助理</h2>
+        <h2>AI搜查助理</h2>
         <div id="aiChatContainer"></div>
         <div>
           <input type="text" id="aiUserInput" placeholder="請輸入想找的文件或問題">
@@ -917,7 +915,7 @@ a.download-link::before {
       /*************************************************
        * 1) Web App URL
        *************************************************/
-      const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyiKacuNkJ9LvtPVvUnMuQit5exyVvp7c_ZHVIrPjCvq_bVH-bCVzIa3Parn6MSRe219w/exec";
+      const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwgTumahF9T9434PU609uGLR5zezVltf4r-pC7qdSHxKRL92RH1iTLRmmVH-LuaBPkRoQ/exec";
       let currentUser = null;
       
       /*************************************************
@@ -1012,53 +1010,196 @@ a.download-link::before {
           });
       }
 
-      /*************************************************
-       * 4) 登出函數
-       *************************************************/
-      function logoutUser() {
-        // 添加按鈕點擊效果
-        const logoutBtn = document.getElementById('logoutButton');
-        logoutBtn.classList.add('button-clicked');
-        
-        // 更改按鈕顏色
-        logoutBtn.style.background = 'linear-gradient(45deg, #ff3333, #ff6b6b)';
-        
-        // 延遲執行登出操作
-        setTimeout(() => {
-          const loginRowIndex = localStorage.getItem('loginRowIndex');
-          if (loginRowIndex) {
-            callGAS('logLogout', { rowIndex: loginRowIndex })
-              .then(data => {
-                cleanupAndShowLogin();
-              })
-              .catch(err => {
-                cleanupAndShowLogin();
-              });
-          } else {
-            cleanupAndShowLogin();
-          }
-        }, 300);
-      }
-      
-      function cleanupAndShowLogin() {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('username');
-        localStorage.removeItem('name');
-        localStorage.removeItem('role');
-        localStorage.removeItem('loginRowIndex');
-        localStorage.removeItem('permissionLevel');
+ /*************************************************
+ * 4) 登出函數
+ *************************************************/
+function logoutUser() {
+  // 檢查是否已經存在下拉選單
+  const existingDropdown = document.querySelector('.logout-dropdown');
+  if (existingDropdown) {
+    document.body.removeChild(existingDropdown);
+    return;
+  }
 
-        currentUser = null;
-        document.getElementById('loginScreen').style.display = 'flex';
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('loginError').style.display = 'none';
-        
-        // 重置登出按鈕顏色
-        const logoutBtn = document.getElementById('logoutButton');
-        logoutBtn.style.background = 'linear-gradient(45deg, #ff6b6b, #ff8e8e)';
-        logoutBtn.classList.remove('button-clicked');
+  // 添加下拉菜單
+  var dropdown = document.createElement('div');
+  dropdown.className = 'logout-dropdown';
+  dropdown.style.position = 'absolute';
+  dropdown.style.top = '45px';
+  dropdown.style.right = '10px';
+  dropdown.style.backgroundColor = 'white';
+  dropdown.style.borderRadius = '10px';
+  dropdown.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+  dropdown.style.zIndex = '1000';
+  dropdown.style.overflow = 'hidden';
+  dropdown.style.minWidth = '120px';
+  
+  // 添加更改密碼選項
+  var changePasswordOption = document.createElement('div');
+  changePasswordOption.className = 'dropdown-option';
+  changePasswordOption.textContent = '更改密碼';
+  changePasswordOption.style.padding = '12px 15px';
+  changePasswordOption.style.cursor = 'pointer';
+  changePasswordOption.style.borderBottom = '1px solid #eee';
+  changePasswordOption.style.transition = 'background-color 0.3s';
+  changePasswordOption.style.color = '#333';
+  changePasswordOption.style.fontWeight = 'bold';
+  changePasswordOption.onmouseover = function() {
+    this.style.backgroundColor = '#f5f5f5';
+  };
+  changePasswordOption.onmouseout = function() {
+    this.style.backgroundColor = 'white';
+  };
+  changePasswordOption.onclick = function(e) {
+    e.stopPropagation(); // 防止事件冒泡
+    showChangePasswordModal();
+    document.body.removeChild(dropdown);
+  };
+  
+  // 添加登出選項
+  var logoutOption = document.createElement('div');
+  logoutOption.className = 'dropdown-option';
+  logoutOption.textContent = '登出系統';
+  logoutOption.style.padding = '12px 15px';
+  logoutOption.style.cursor = 'pointer';
+  logoutOption.style.color = '#ff3333';
+  logoutOption.style.fontWeight = 'bold';
+  logoutOption.style.transition = 'background-color 0.3s';
+  logoutOption.onmouseover = function() {
+    this.style.backgroundColor = '#fff0f0';
+  };
+  logoutOption.onmouseout = function() {
+    this.style.backgroundColor = 'white';
+  };
+  logoutOption.onclick = function(e) {
+    e.stopPropagation(); // 防止事件冒泡
+    performLogout();
+  };
+  
+  dropdown.appendChild(changePasswordOption);
+  dropdown.appendChild(logoutOption);
+  document.body.appendChild(dropdown);
+  
+  // 點擊其他地方關閉下拉菜單
+  setTimeout(function() {
+    document.addEventListener('click', function closeDropdown(e) {
+      if (!dropdown.contains(e.target) && e.target.id !== 'logoutButton') {
+        if (document.body.contains(dropdown)) {
+          document.body.removeChild(dropdown);
+        }
+        document.removeEventListener('click', closeDropdown);
       }
+    });
+  }, 0);
+}
+
+function performLogout() {
+  // 添加按鈕點擊效果
+  const logoutBtn = document.getElementById('logoutButton');
+  logoutBtn.classList.add('button-clicked');
+  
+  // 更改按鈕顏色
+  logoutBtn.style.background = 'linear-gradient(45deg, #ff3333, #ff6b6b)';
+  
+  // 延遲執行登出操作
+  setTimeout(() => {
+    const loginRowIndex = localStorage.getItem('loginRowIndex');
+    if (loginRowIndex) {
+      callGAS('logLogout', { rowIndex: loginRowIndex })
+        .then(data => {
+          doLogout();
+        })
+        .catch(err => {
+          doLogout();
+        });
+    } else {
+      doLogout();
+    }
+  }, 300);
+}
+
+// 執行登出的實際操作
+function doLogout() {
+  // 清除本地存儲
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('username');
+  localStorage.removeItem('name');
+  localStorage.removeItem('role');
+  localStorage.removeItem('loginRowIndex');
+  localStorage.removeItem('permissionLevel');
+
+  // 重置當前用戶
+  currentUser = null;
+  
+  // 顯示登入畫面
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('username').value = '';
+  document.getElementById('password').value = '';
+  document.getElementById('loginError').style.display = 'none';
+  
+  // 重置登出按鈕顏色
+  const logoutBtn = document.getElementById('logoutButton');
+  logoutBtn.style.background = 'linear-gradient(45deg, #ff6b6b, #ff8e8e)';
+  logoutBtn.classList.remove('button-clicked');
+}
+
+
+// 顯示更改密碼模態視窗
+function showChangePasswordModal() {
+  document.getElementById('currentPassword').value = '';
+  document.getElementById('newPassword').value = '';
+  document.getElementById('confirmPassword').value = '';
+  document.getElementById('passwordError').style.display = 'none';
+  document.getElementById('changePasswordModal').style.display = 'block';
+}
+
+// 關閉更改密碼模態視窗
+function closeChangePasswordModal() {
+  document.getElementById('changePasswordModal').style.display = 'none';
+}
+
+// 更改密碼
+function changePassword() {
+  const currentPassword = document.getElementById('currentPassword').value;
+  const newPassword = document.getElementById('newPassword').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  const passwordError = document.getElementById('passwordError');
+  
+  // 驗證輸入
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    passwordError.textContent = '請填寫所有欄位';
+    passwordError.style.display = 'block';
+    return;
+  }
+  
+  if (newPassword !== confirmPassword) {
+    passwordError.textContent = '新密碼與確認密碼不符';
+    passwordError.style.display = 'block';
+    return;
+  }
+  
+  // 呼叫後端API更改密碼
+  callGAS('changePassword', { 
+    currentPassword: currentPassword,
+    newPassword: newPassword,
+    username: localStorage.getItem('username')
+  })
+  .then(data => {
+    if (data.success) {
+      alert('密碼更改成功！請重新登入。');
+      closeChangePasswordModal();
+      performLogout();
+    } else {
+      passwordError.textContent = data.error || '密碼更改失敗';
+      passwordError.style.display = 'block';
+    }
+  })
+  .catch(err => {
+    console.error('更改密碼錯誤:', err);
+    passwordError.textContent = '更改密碼時發生錯誤，請稍後再試';
+    passwordError.style.display = 'block';
+  });
+}
 
       /*************************************************
        * 5) 更新用戶信息顯示 + s3按鈕顯示
@@ -1388,8 +1529,8 @@ a.download-link::before {
         // 初次開啟時，先放兩句話(問候 + 問問題)
         const chatContainer = document.getElementById('aiChatContainer');
         chatContainer.innerHTML = `
-          <div class="chat-assistant">Hi～願你擁有美好的一天～</div>
-          <div class="chat-assistant">想要找什麼檔案呢？請給我關鍵詞（用多個關鍵詞會更精準喔～KeyWords請用空格隔開）～</div>
+          <div class="chat-assistant">哈囉～希望你今天一切順利。</div>
+          <div class="chat-assistant">你想要找什麼檔案呢？給我關鍵詞（多個關鍵詞，中間空格就好）～</div>
         `;
       }
 
@@ -1441,5 +1582,48 @@ a.download-link::before {
         });
       }
     </script>
+    <!-- 更改密碼模態視窗 -->
+<div id="changePasswordModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeChangePasswordModal()">&times;</span>
+    <h2>更改密碼</h2>
+    <div class="form-group">
+      <label for="currentPassword">目前密碼:</label>
+      <input type="password" id="currentPassword" required>
+    </div>
+    <div class="form-group">
+      <label for="newPassword">新密碼:</label>
+      <input type="password" id="newPassword" required>
+    </div>
+    <div class="form-group">
+      <label for="confirmPassword">確認新密碼:</label>
+      <input type="password" id="confirmPassword" required>
+    </div>
+    <div id="passwordError" style="color: #ff6b6b; margin: 10px 0; font-weight: bold; display: none;"></div>
+    <button onclick="changePassword()">確認更改</button>
+  </div>
+</div>
+<!-- 更改密碼模態視窗 -->
+<div id="changePasswordModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeChangePasswordModal()">&times;</span>
+    <h2>更改密碼</h2>
+    <div class="form-group">
+      <label for="currentPassword">目前密碼:</label>
+      <input type="password" id="currentPassword" required>
+    </div>
+    <div class="form-group">
+      <label for="newPassword">新密碼:</label>
+      <input type="password" id="newPassword" required>
+    </div>
+    <div class="form-group">
+      <label for="confirmPassword">確認新密碼:</label>
+      <input type="password" id="confirmPassword" required>
+    </div>
+    <div id="passwordError" style="color: #ff6b6b; margin: 10px 0; font-weight: bold; display: none;"></div>
+    <button onclick="changePassword()">確認更改</button>
+  </div>
+</div>
+
   </body>
 </html>
