@@ -474,6 +474,50 @@
   font-size: 1em;
 }
 
+/* 昶青文化按鈕樣式 */
+#cultureButton {
+  position: absolute;
+  top: 290px; /* 將按鈕放在福委會按鈕旁邊 */
+  left: 110px;
+  padding: 3px 3px;
+  background: linear-gradient(45deg, #f2fa07, #f7fa9d);
+  color: black; 
+  border: none; 
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(142, 68, 173, 0.4), 0 3px 8px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  font-size: 1.3em; 
+  font-weight: bold;
+  font-color: #141400;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  min-height: 35px;
+  min-width: 80px;
+  width: 90px;
+}
+
+#cultureButton:hover {
+  background: linear-gradient(45deg, #9b59b6, #8e44ad);
+  box-shadow: 0 8px 20px rgba(142, 68, 173, 0.5), 0 5px 12px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+#cultureButton::before {
+  content: "🏛️";
+  margin-right: 8px;
+  font-size: 0.7em;
+  display: inline-block;
+  transition: all 0.3s ease;
+  position: relative;
+  top: -1px;
+}
+
+#cultureButton:hover::before {
+  transform: rotate(360deg);
+  font-size: 1em;
+}
 
 /* Logout Button */
 #logoutButton {
@@ -660,6 +704,9 @@ a.download-link::before {
   margin: 10px 0;
 }
 
+繼續提供完整代碼的其餘部分：
+
+```html
 /* NEW: Important Links Modal */
 #linksModal {
   display: none;
@@ -673,13 +720,25 @@ a.download-link::before {
 #linksModal .modal-content {
   position: relative;
   background: white;
-  margin: 10% auto;
+  margin: 10% auto; /* 確保水平置中 */
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-  width:90%;
+  width: 90%;
   max-width: 800px;
   animation: modalOpen 0.4s;
+  left: 0; /* 移除任何可能的左側偏移 */
+  right: 0; /* 移除任何可能的右側偏移 */
+}
+/* 確保模態視窗覆蓋整個畫面 */
+#linksModal {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  overflow: auto;
 }
 #linksTable {
   width: 100%;
@@ -769,6 +828,15 @@ a.download-link::before {
     min-width: 110px; 
     padding: 8px 12px; 
     top: 290px; 
+  }
+  
+  #cultureButton { 
+    font-size: 1em; 
+    min-height: 35px; 
+    min-width: 110px; 
+    padding: 8px 12px; 
+    top: 290px; 
+    left: 125px;
   }
   
   .first-form-group {
@@ -1005,6 +1073,8 @@ a.download-link::before {
       <button id="aiButton" onclick="showAiModal()">AI助理</button>
       <!-- 在 #aiButton 後添加福委會按鈕 -->
       <button id="welfareButton" onclick="showWelfarePage()">福委會</button>
+      <!-- 新增：昶青文化按鈕 -->
+      <button id="cultureButton" onclick="showCulturePage()">昶青文化</button>
       
       <div class="form-group first-form-group">
         <label for="folderSelect">請選擇部門</label>
@@ -1105,7 +1175,7 @@ a.download-link::before {
       /*************************************************
        * 1) Web App URL
        *************************************************/
-      const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzc2iin5SbdKovIAYgzz9MfBliTVMb5mIsaXrE0kEYWqWEYHJy26l5P7oHkB0g1u-HcqA/exec";
+      const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyojYN84LvgO1AdfUaMu6BuHGFA46pFIgKgjmivG3EMXN1oZC52IodQo9qoSClJCMZr/exec";
       let currentUser = null;
       
       /*************************************************
@@ -1416,7 +1486,7 @@ a.download-link::before {
         }
       }
 
-      /*************************************************
+            /*************************************************
        * 6) 調用 Apps Script
        *************************************************/
       function callGAS(action, params = {}, useToken = true) {
@@ -1665,39 +1735,42 @@ a.download-link::before {
       /*************************************************
        * ★ NEW: 顯示「重要連結」(只有 s3)
        *************************************************/
-      function showLinks() {
-        // 添加按鈕點擊效果
-        const linksBtn = document.getElementById('linksButton');
-        linksBtn.classList.add('button-clicked');
-        
-        // 更改按鈕顏色
-        linksBtn.style.background = 'linear-gradient(45deg, #ff8c00, #ffb700)';
-        
-        setTimeout(() => {
-          callGAS('getImportantLinks')
-            .then(data => {
-              if (data.success) {
-                const links = data.result; 
-                renderLinksTable(links);
-                document.getElementById('linksModal').style.display = 'block';
-                
-                setTimeout(() => {
-                  linksBtn.style.background = 'linear-gradient(45deg, #ffb700, #ffc947)';
-                  linksBtn.classList.remove('button-clicked');
-                }, 300);
-              } else {
-                console.error("Error:", data.error);
-                linksBtn.style.background = 'linear-gradient(45deg, #ffb700, #ffc947)';
-                linksBtn.classList.remove('button-clicked');
-              }
-            })
-            .catch(err => {
-              console.error("Fetch error:", err);
-              linksBtn.style.background = 'linear-gradient(45deg, #ffb700, #ffc947)';
-              linksBtn.classList.remove('button-clicked');
-            });
-        }, 300);
-      }
+function showLinks() {
+  // 添加按鈕點擊效果
+  const linksBtn = document.getElementById('linksButton');
+  linksBtn.classList.add('button-clicked');
+  
+  // 更改按鈕顏色
+  linksBtn.style.background = 'linear-gradient(45deg, #ff8c00, #ffb700)';
+  
+  setTimeout(() => {
+    callGAS('getImportantLinks')
+      .then(data => {
+        if (data.success) {
+          const links = data.result; 
+          renderLinksTable(links);
+          
+          // 確保模態視窗正確顯示
+          const modal = document.getElementById('linksModal');
+          modal.style.display = 'block';
+          
+          // 確保模態內容置中
+          const modalContent = modal.querySelector('.modal-content');
+          if (modalContent) {
+            modalContent.style.margin = '10% auto';
+            modalContent.style.left = '0';
+            modalContent.style.right = '0';
+          }
+          
+          setTimeout(() => {
+            linksBtn.style.background = 'linear-gradient(45deg, #ffb700, #ffc947)';
+            linksBtn.classList.remove('button-clicked');
+          }, 300);
+        }
+      });
+  }, 300);
+}
+
       
       function closeLinksModal() {
         document.getElementById('linksModal').style.display = 'none';
@@ -1915,6 +1988,32 @@ a.download-link::before {
           
           // 跳轉到福委會頁面
           window.location.href = 'welfare.html';
+        }, 300);
+      }
+
+      // 添加昶青文化頁面跳轉函數
+      function showCulturePage() {
+        // 添加按鈕點擊效果
+        const cultureBtn = document.getElementById('cultureButton');
+        cultureBtn.classList.add('button-clicked');
+        
+        // 更改按鈕顏色
+        cultureBtn.style.background = 'linear-gradient(45deg, #9b59b6, #a569bd)';
+        
+        // 延遲執行跳轉操作
+        setTimeout(() => {
+          // 儲存當前用戶資訊到 sessionStorage，以便在文化頁面使用
+          if (currentUser) {
+            sessionStorage.setItem('username', currentUser.username);
+            sessionStorage.setItem('name', currentUser.name);
+            sessionStorage.setItem('role', currentUser.role);
+            sessionStorage.setItem('permissionLevel', currentUser.permission);
+            sessionStorage.setItem('authToken', localStorage.getItem('authToken'));
+            sessionStorage.setItem('csrfToken', localStorage.getItem('csrfToken'));
+          }
+          
+          // 跳轉到昶青文化頁面
+          window.location.href = 'culture.html';
         }, 300);
       }
     </script>
